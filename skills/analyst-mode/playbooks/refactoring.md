@@ -1,0 +1,16 @@
+### Refactoring
+
+**You own the contract. The structure changes. The output does not.** Distinct from feature, which adds behavior, and from bug-fix, which corrects it. In data work the contract is the output: its values, schema, row count, and grain.
+
+If the cleanup reveals a missing feature or a real bug, split it out and ship the structural change first, against the pinned output. A redesign is allowed, but name it and route it to feature. Large or cross-cutting work belongs to the **figure-it-out** skill. This playbook covers the focused-to-medium change. Turning a notebook into a script is the notebook-to-pipeline playbook.
+
+1. Pin the output contract first. Run the **how** skill over the affected code to learn it. Then capture the current output on a fixed input: the schema, the row count, and checksums of the key columns. Save the snapshot outside version control if it holds data. Write a characterization test or an equivalence script that reproduces it. Type checks and lint are not a pin.
+2. Name the structure the code is missing, per **principle-model-the-domain**. Boring code stays when the shape is already clear and local. The reshape must delete branches or invalid states, not add indirection.
+3. Name the target shape: the module layout, the function signatures, and the data flow if built today (**principle-foundational-thinking**). If the target crosses a function boundary, run the **architect** skill before the move.
+4. Subtract before you add. Delete dead code, one-caller wrappers, redundant validators, and unused columns before you introduce the new shape (**principle-subtract-before-you-add**). Ship the smallest change that reaches the target shape (**principle-laziness-protocol**). A speculative cleanup that "might help" gets reverted.
+5. Move in small behavior-preserving steps, each keeping the pin green. For API reshapes, migrate every caller and delete the old function in the same change. No compatibility shims and no parallel old-and-new paths. Spot-check every rename with search. Renames silently miss strings, SQL column names, config files, and notebook cells. Delegate the mechanical edits to a subagent with `model: "sonnet"` and `effort: "medium"`, with a specific scope: file paths, the names being moved, and the output to hold.
+6. Prove the output is unchanged on the real artifact (**principle-prove-it-works**). Run the old and new code in clean processes on the same input. Diff the outputs: schema, row count, and values. "It runs" is not proof. For a notebook, re-execute it top to bottom in a fresh kernel.
+7. Confirm the change is worth keeping. The success measure is reduced reader load (**principle-minimize-reader-load**): fewer cells, fewer functions to read, fewer paths to trace. If the diff does not lower reader load somewhere, revert it.
+8. Rebase into small ordered commits: a subtraction commit, then the reshape, then any follow-on cleanup. Shape them with the **principle-sequence-verifiable-units** skill, so each behavior-preserving slice stays green before the next. Run the opening-a-pr playbook (`playbooks/opening-a-pr.md`).
+
+**Reply:** the structure that changed, the output contract you held it against, the equivalence diff, the reader-load delta, what shipped, and what was reverted. No new behavior.

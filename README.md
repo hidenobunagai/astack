@@ -1,0 +1,82 @@
+# wstack
+
+A Claude Code plugin for data analysis work: Python with uv and Polars, Jupyter and marimo notebooks, and charts and dashboards. It gives the agent a strict working style, playbooks for common analysis tasks, and principle skills that keep numbers honest.
+
+wstack is adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.30 by Lauren Tan (MIT). The general engineering workflows are kept, rewritten with Claude Code tool names. The web, PR-automation, and Cursor-only parts are dropped. Data-specific playbooks and principles are added.
+
+It assumes a plain git and GitHub (`gh`) workflow, works on Windows, macOS, and Linux, and uses [engram](https://github.com/hidenobunagai/engram) for memory of past sessions when it is installed.
+
+> Provided as-is, with no support. Issues and pull requests may go unanswered. Fork it and make it yours.
+
+## Requirements
+
+- Claude Code
+- git and the GitHub CLI (`gh`). On Windows, install [Git for Windows](https://git-scm.com/downloads/win) so Claude Code's Bash tool runs in Git Bash.
+- [uv](https://docs.astral.sh/uv/) for Python
+- Node.js 18 or newer for `npx` tools and the skill check
+- Optional: [engram](https://github.com/hidenobunagai/engram) for recall of past sessions and saved notes
+
+## Install
+
+```bash
+claude plugin marketplace add hidenobunagai/wstack
+claude plugin install wstack@wstack
+
+# optional: memory of past sessions
+claude plugin marketplace add hidenobunagai/engram
+claude plugin install engram@engram-marketplace
+```
+
+For local development, load the working tree without installing:
+
+```bash
+claude --plugin-dir path/to/wstack
+```
+
+If pstack is also installed, its skills (`how`, `why`, `unslop`, and others) share names and descriptions with wstack's and compete for auto-triggering. Disable pstack in data repos through the project's `.claude/settings.json`:
+
+```json
+{ "enabledPlugins": { "pstack@cursor-plugins": false } }
+```
+
+## Models and cost
+
+Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
+
+## Use
+
+Type `/wstack:analyst-mode` to enter the working style. It routes each task to a playbook:
+
+| Task | Playbook |
+| --- | --- |
+| First look at a new dataset | `eda` |
+| "Why did this metric move?" | `metric-investigation` |
+| Checks on a dataset or pipeline output | `data-quality-check` |
+| A wrong number, a broken pipeline, a failing notebook | `bug-fix` |
+| A slow query, transform, or notebook | `perf-issue` |
+| Improving one metric over many iterations | `hillclimb` |
+| New analysis code or pipeline step | `feature` |
+| An exploratory notebook to a re-runnable script | `notebook-to-pipeline` |
+| A chart or dashboard | `visualization` |
+| A write-up for readers | `findings-report` |
+| Read-only questions about code or data | `investigation` |
+
+Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/wstack:wstack-help` with a question to find the right one.
+
+The principle skills load on demand. The data-specific ones are `principle-define-the-question`, `principle-respect-the-grain`, `principle-reproduce-from-clean-state`, and `principle-explain-the-number`.
+
+Two agents ship with the plugin. `wstack:analyst` is the delegate for code and notebook work. `wstack:comment-critic` removes comments that do not earn their place.
+
+wstack uses the `dataviz` skill for chart design when your Claude Code has it, and falls back to the rules in the visualization playbook otherwise.
+
+## Develop
+
+```bash
+node scripts/check-skills.mjs
+```
+
+The check validates frontmatter, names, size limits, cross-skill references, links, the analyst-mode playbook index, and leftover upstream terms. Run it before each commit.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
