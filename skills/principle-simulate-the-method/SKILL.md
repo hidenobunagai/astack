@@ -16,6 +16,8 @@ Write one script that generates the data, runs the method, and prints the checks
 3. **Coverage.** The 95% interval contains the planted value in about 95% of runs. Allow some spread: with 200 runs, 92% to 98% is consistent with 95%.
 4. **Power.** At the real sample size, how often does the method detect the planted effect? This is the smallest effect the study can see. State it in the plan, before the human runs the real analysis.
 
+For a prediction or forecast, the four checks do not fit. Validate with a backtest that respects time, against a naive baseline, as the forecasting reference in the **retail-analytics** skill describes.
+
 ## Make the simulation as hard as the data
 
 A simulation that is easier than the real data passes every method. Plant the problems the real data has:

@@ -75,6 +75,8 @@ analyst-mode routes each task to a playbook:
 
 Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/wstack:wstack-help` with a question to find the right one.
 
+For retail and ID-POS work, the `retail-analytics` skill picks the statistical method. It first separates explaining from predicting, then routes to one of eight method families: experiments, promotion effects from observational data, segmentation, cohorts and lifetime value, surveys, explanatory regression, forecasting, and price and basket analysis. `references/id-pos-grain.md` lists the line, receipt, customer, and store-day grains and the sales definitions to fix per project.
+
 The principle skills load on demand. The data-specific ones are `principle-define-the-question`, `principle-respect-the-grain`, `principle-reproduce-from-clean-state`, `principle-explain-the-number`, `principle-name-the-estimand`, and `principle-simulate-the-method`. The last two cover statistical work: naming the quantity and the unit of assignment before picking a method, and checking the method on synthetic data with a planted truth before it runs on real data. The `interrogate` skill adds a statistical-validity reviewer when the work makes a statistical claim.
 
 Two agents ship with the plugin. `wstack:analyst` is the delegate for code and notebook work. `wstack:comment-critic` removes comments that do not earn their place.
