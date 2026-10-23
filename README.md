@@ -45,7 +45,9 @@ Every subagent call names its model and effort. `opus` runs only the roles that 
 
 ## Use
 
-Type `/wstack:analyst-mode` to enter the working style. It routes each task to a playbook:
+analyst-mode is on in every session. A `SessionStart` hook loads it at startup, resume, `/clear`, and compaction, so you do not need to type `/wstack:analyst-mode`. Say "analyst-mode off" to drop it for the rest of a session. To skip it for good, such as in headless jobs or repos that are not about data, set `WSTACK_ANALYST=off` in the environment or in the `env` block of `.claude/settings.json`.
+
+analyst-mode routes each task to a playbook:
 
 | Task | Playbook |
 | --- | --- |
