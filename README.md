@@ -39,6 +39,16 @@ If pstack is also installed, its skills (`how`, `why`, `unslop`, and others) sha
 { "enabledPlugins": { "pstack@cursor-plugins": false } }
 ```
 
+## Who runs the data
+
+The agent never sees real data. It writes the plan and the code, runs them on synthetic data it builds from the schema, and hands every run on real data to you as a run request: the command, the checks with their expected results, and the summary block to paste back. Scripts meant for real data print aggregates and `PASS`/`FAIL` lines only, never rows. The agent then reads what you paste. The rules live in the Human runs the data section of `skills/analyst-mode/SKILL.md`.
+
+A `PreToolUse` hook (`hooks/guard-data.mjs`) backs this up. It blocks the Read and Grep tools and common shell readers (`cat`, `head`, `jq`, `duckdb`, and others) on data files and raw `.ipynb` notebooks, whose saved outputs can hold rows. Paths under `tests/` or with `synthetic` or `fixture` in the name stay readable. The hook cannot see what a script loads, so a project that needs a hard wall should also deny the data directories in `.claude/settings.json`:
+
+```json
+{ "permissions": { "deny": ["Read(./data/**)", "Bash(bq query:*)"] } }
+```
+
 ## Models and cost
 
 Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
@@ -75,9 +85,10 @@ wstack uses the `dataviz` skill for chart design when your Claude Code has it, a
 
 ```bash
 node scripts/check-skills.mjs
+node scripts/check-guard.mjs
 ```
 
-The check validates frontmatter, names, size limits, cross-skill references, links, the analyst-mode playbook index, and leftover upstream terms. Run it before each commit.
+The first check validates frontmatter, names, size limits, cross-skill references, links, the analyst-mode playbook index, and leftover upstream terms. The second runs the data guard hook against known cases. Run both before each commit.
 
 ## License
 

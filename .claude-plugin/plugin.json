@@ -1,6 +1,6 @@
 {
   "name": "wstack",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Rigorous agent workflows for data analysis in Python, notebooks, and dashboards, on plain git. Adapted from pstack.",
   "author": {
     "name": "Hidenobu Nagai"

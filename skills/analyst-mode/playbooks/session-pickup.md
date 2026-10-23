@@ -6,6 +6,6 @@
 2. Reconstruct the operational state: the current branch and its stack (`git status`, `git log --oneline <base>..HEAD`), what already landed (`git diff $(git merge-base <base> HEAD)`), the open todos, and the decisions made. The prior trail is authoritative input. Resist the bias to re-derive it.
 3. Diff done against pending. Compare what shipped with what was planned. Name the resume point. Do not re-run the prior analysis or redo completed work. A "let me verify from scratch" pass treats an authoritative trail as untrustworthy.
 4. Route the remaining work to the matching playbook and pick the verdict: continue the execution, ship a finished recommendation, ratify or override a prior conclusion, or write a postmortem for a failed run. This playbook ends here. The routed playbook owns the rest.
-5. Verify the inherited claims against the original goal on the real artifact. Re-run the key query or script from a clean process and read the values (the **principle-prove-it-works** skill). A passing prior self-report is not the proof.
+5. Verify the inherited claims against the original goal on the real artifact. Re-run the key script on synthetic data yourself, and ask the human for a clean real data run of the key query or script in one run request (the **principle-prove-it-works** skill). A passing prior self-report is not the proof.
 
 **Reply:** where the prior agent stopped, what you inherited versus redid (ideally nothing redone), the resume point, and the outcome.

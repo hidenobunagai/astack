@@ -26,7 +26,7 @@ Swap in the real paths, tables, and done checks. Informal wording works.
 - Feature: `/wstack:analyst-mode add a 7-day rolling retention column. the existing columns stay byte-identical. verify both.`
 - Notebook to pipeline: `/wstack:analyst-mode turn analysis/explore.ipynb into a script that reproduces its numbers on the same input. convert it first, then prove parity.`
 - Refactor: `/wstack:analyst-mode move the cleaning steps into one module, zero change to the output. record the current output first and prove it is unchanged after.`
-- Chart: `/wstack:analyst-mode build the weekly churn chart for the ops review. the question is which plan is leaking users. render it, look at the image, and check every plotted value against the source.`
+- Chart: `/wstack:analyst-mode build the weekly churn chart for the ops review. the question is which plan is leaking users. draft it on synthetic data, then give me a run request that renders the real chart and checks every plotted value against the source.`
 
 ## Design and plan
 
@@ -43,7 +43,7 @@ Swap in the real paths, tables, and done checks. Informal wording works.
 
 ## Away and back
 
-- `/wstack:analyst-mode going to bed. re-run the cohort analysis from source data in a fresh worktree off main. done means the reproduced retention table matches the reference within 0.1 point. keep a decision log. do not ask me before committing. if you are stuck after a few hours, stop and write up why.`
+- `/wstack:analyst-mode going to bed. port the cohort analysis to the new schema in a fresh worktree off main. done means the synthetic cohort tests pass and a parity script is ready for me to run in the morning. keep a decision log. do not ask me before committing. if you are stuck after a few hours, stop and write up why.`
 - `/wstack:show-me-your-work catch me up on what you did last night.` Read its Attention section first.
 - `/wstack:catch-up` gives the short version of what changed in this chat since the last message.
 - `/wstack:plain-words` restates the last reply in plain words.

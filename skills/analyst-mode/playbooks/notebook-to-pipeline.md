@@ -10,19 +10,19 @@
    uv run jupytext --to py:percent analysis/explore.ipynb -o analysis/explore.py
    ```
 
-   `jupytext` writes a `# %%` cell script that diffs cleanly. `nbconvert --to script` also works if the project already uses it. Read the `.py` file, not the notebook.
-3. Freeze the reference. Run the original notebook top to bottom in a fresh process with `papermill`. Tag the parameters cell first, because papermill injects `-p` values there:
+   `jupytext` writes a `# %%` cell script that diffs cleanly and carries no outputs. `nbconvert --to script` also works if the project already uses it. Read the `.py` file, not the notebook. To change the notebook itself, edit the `.py` file and push it back with `uv run jupytext --update --to ipynb --output analysis/explore.ipynb analysis/explore.py`, which keeps the saved outputs.
+3. Freeze the reference. The human runs the original notebook top to bottom in a fresh process with `papermill`, through a run request (analyst-mode, Human runs the data). Tag the parameters cell first, because papermill injects `-p` values there:
 
    ```bash
    uv run papermill analysis/explore.ipynb /tmp/ref/explore.out.ipynb -p start 2026-01-01 -p end 2026-01-31
    ```
 
-   Then write the key tables the notebook produces to `/tmp/ref/` as Parquet, from one added cell. The saved outputs of the notebook are not the reference. The fresh run is. Use the **principle-reproduce-from-clean-state** skill.
-4. Delete dead cells. Remove cells whose results nothing reads, prints that were only for looking, and cells that overwrite a name used earlier. Run the cleaned notebook top to bottom once. If it breaks, the notebook depended on hidden state. Name that dependency in the reply.
+   Then write the key tables the notebook produces to `/tmp/ref/` as Parquet, from one added cell that you write and the human runs. You never open those files. The saved outputs of the notebook are not the reference. The fresh run is. Use the **principle-reproduce-from-clean-state** skill.
+4. Delete dead cells. Remove cells whose results nothing reads, prints that were only for looking, and cells that overwrite a name used earlier. The cleaned notebook gets one top to bottom run, by the human, in the same request as step 8 when you can. If it breaks, the notebook depended on hidden state. Name that dependency in the reply.
 5. Extract one function per step. Each function takes Polars DataFrames or plain values and returns a DataFrame. Keep the step order that the data needs, not the order the cells happened to run. Do not add classes. Follow the project's existing module layout.
 6. Move every hardcoded path, date, threshold, and seed into one place, read from command-line arguments. Use `polars.scan_parquet` for inputs so the pipeline stays lazy until the write.
 7. Pin the dependencies. `uv add` each import the script uses, then commit `pyproject.toml` and `uv.lock`. Run it with `uv run python -m <package>` or `uv run python analysis/pipeline.py`. Never `pip install` into the global environment.
-8. Prove parity on the same input. Run the pipeline in a fresh process, then compare each output to `/tmp/ref/` with `polars.testing.assert_frame_equal`. Sort both frames by the key columns first. `group_by` does not keep group order by default (`maintain_order=False`), so an unsorted comparison can fail on a correct pipeline. Where order is part of the output, use `group_by(..., maintain_order=True)` in the pipeline instead. Check row counts and key uniqueness before and after each join. Relax the comparison only for float columns, with a tolerance and a written reason. A failure from row order alone is a harness bug, not a data bug. Use the **principle-respect-the-grain** skill.
+8. Prove parity on the same input. First run the pipeline yourself on a synthetic input and confirm it executes end to end. Then hand the human one parity script: it runs the pipeline in a fresh process, compares each output to `/tmp/ref/` with `polars.testing.assert_frame_equal`, and prints the row counts on both sides and `PASS` or `FAIL` per output. Sort both frames by the key columns first. `group_by` does not keep group order by default (`maintain_order=False`), so an unsorted comparison can fail on a correct pipeline. Where order is part of the output, use `group_by(..., maintain_order=True)` in the pipeline instead. Check row counts and key uniqueness before and after each join. Relax the comparison only for float columns, with a tolerance and a written reason. A failure from row order alone is a harness bug, not a data bug. Use the **principle-respect-the-grain** skill.
 
    ```python
    import polars as pl
@@ -35,7 +35,7 @@
    ```
 
 9. Keep the notebook until parity holds, then either delete it or reduce it to a reader that calls the pipeline. Do not commit notebook outputs. Do not commit raw data or credentials.
-10. Leave one re-run command in the README or the module docstring, for example `uv run python analysis/pipeline.py --start 2026-01-01 --end 2026-01-31`. Run it again from a clean process and read the printed row counts.
+10. Leave one re-run command in the README or the module docstring, for example `uv run python analysis/pipeline.py --start 2026-01-01 --end 2026-01-31`. The human runs it again from a clean process, and you read the pasted row counts.
 
 **Reply:** what the pipeline takes and produces.
 - The parity result: each output, its row count on both sides, and the comparison that passed. Name any relaxed float tolerance.

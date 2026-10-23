@@ -49,7 +49,7 @@ If the candidates converge on one shape, that is strong agreement. Note it and s
 
 ## Phase F: Verify
 
-Verify the synthesized artifact like any other output, per the **principle-prove-it-works** skill. For analysis code, that means a clean re-run and a check of the numbers against the source. If verification finds a problem the arena missed, either Phase A was wrong (re-frame and re-run) or a candidate caught it and the graft was missed (return to Phase E). Do not paper over it.
+Verify the synthesized artifact like any other output, per the **principle-prove-it-works** skill. For analysis code, that means a clean re-run on synthetic data, then a run request so the human checks the numbers against the source. If verification finds a problem the arena missed, either Phase A was wrong (re-frame and re-run) or a candidate caught it and the graft was missed (return to Phase E). Do not paper over it.
 
 ## Outputs
 

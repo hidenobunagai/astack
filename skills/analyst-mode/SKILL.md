@@ -10,21 +10,23 @@ Load the other skills with the Skill tool as `wstack:<name>`. Read a leaf SKILL.
 
 ## Non-negotiables
 
+The human runs everything that touches real data. You plan, write the code, run it on synthetic data, and read the aggregates the human pastes back. The Human runs the data section below holds the rules and the run request format. Every playbook step that says run, re-run, or read the output means a run request when the input is real data.
+
 The Principles section grounds every trigger below. In your reply, name each principle that shaped a decision and the specific choice it changed. Cite only principles whose leaf SKILL.md you read this session.
 
 - Any query, join, or aggregation → state the question and the grain first. Load the **principle-define-the-question** and **principle-respect-the-grain** skills. Write the grain of each table in one line. Check row counts and key uniqueness before and after each join.
 - Any number you report, compare, or act on → load the **principle-explain-the-number** skill. Name the driver, the row count, the baseline, and the reconciliation.
-- Any result you call done → re-run it from a clean kernel or process, from source data, with `uv.lock` pinned and seeds fixed. Load the **principle-reproduce-from-clean-state** and **principle-prove-it-works** skills. Read the actual output values, not saved outputs.
-- A notebook → convert it before you read it. Never read a raw `.ipynb` in full. Run `uvx jupytext --to py:percent --output /tmp/<name>.py <notebook>.ipynb` so the script lands outside the repo, then read the script. A marimo notebook is already `.py`.
+- Any result you call done → the human re-runs it from a clean kernel or process, from source data, with `uv.lock` pinned and seeds fixed, through a run request. Load the **principle-reproduce-from-clean-state** and **principle-prove-it-works** skills. Read the values in the pasted output, not saved outputs.
+- A notebook → convert it before you read it. Never read a raw `.ipynb`, because its saved outputs can hold real rows. Run `uvx jupytext --to py:percent --output /tmp/<name>.py <notebook>.ipynb` so the script lands outside the repo, then read the script. The `py:percent` format drops outputs. To change a notebook, edit that script, then write the code back with `uvx jupytext --update --to ipynb --output <notebook>.ipynb /tmp/<name>.py`, which keeps the human's outputs and never shows them to you. Never Edit or Write the `.ipynb` directly. A marimo notebook is already `.py`.
 - A chart or dashboard → read the **dataviz** skill, when it is available, before you write the first line of chart code. Then follow the **visualization** playbook.
 - Python code → follow the project's own conventions first. Without them, run with `uv run`, add dependencies with `uv add` and commit `uv.lock`, use Polars for dataframes, lint and format with `ruff`, check types with `ty`.
 - Shell commands on Windows → the Bash tool runs in Git Bash when Git for Windows is installed, otherwise Claude Code uses the PowerShell tool. Write commands for the shell you have. In Git Bash, use forward slashes and quote paths with spaces. `/tmp` maps to the user's temp folder. Node tooling runs through `npm` and `npx`.
 - Deliverable shape (which charts, what a dashboard shows first) → load the **principle-experience-first** skill. The reader decides what matters.
 - A nontrivial change, an architecture decision, or "are we sure?" → the **how** skill for the existing pipeline, and the **why** skill for the reasons behind a number.
 - Code that crosses a function or schema boundary → the **architect** skill before you implement.
-- About to ask the human "which approach?" → classify the question first. If a run can answer it (output, timing, row counts, whether a chart reads clearly), it is not the human's call. Settle it with the **prototype** playbook (`playbooks/prototype.md`). Ask only about a product or preference call that no run can settle.
+- About to ask the human "which approach?" → classify the question first. If a run can answer it (output, timing, row counts, whether a chart reads clearly), it is not a question for the human. Settle it with the **prototype** playbook (`playbooks/prototype.md`): on synthetic data when that is enough, otherwise with one run request that runs every option and prints them side by side. Ask only about a product or preference call that no run can settle.
 - A result or design that needs challenge before it ships → the **interrogate** skill.
-- Parallel work over data slices, datasets, or notebooks → the **swarm** skill. A bakeoff between candidate pipelines or layouts → the **arena** skill.
+- Parallel work over data slices, datasets, or notebooks → the **swarm** skill. Each worker writes and tests its slice on synthetic data, and the slices merge into one batched run request. A bakeoff between candidate pipelines or layouts → the **arena** skill.
 - A runtime number (query time, transform time, pipeline time) → the **benchmark-checklist** skill before you report or act on it.
 - Any prose surface, including your reply → the **unslop** skill. Docs, readmes, methods notes, PR descriptions, and commit messages → the **technical-writing** skill.
 - Before review → the **no-comments** skill.
@@ -72,12 +74,38 @@ Each entry names when the principle applies. Load its leaf skill before you appl
 - **Guard the Context Window.** Large query results, long notebooks, wide tables, big CSV or Parquet previews, or fan-out across many segments. Aggregate before you print. Load the **principle-guard-the-context-window** skill.
 - **Never Block on the Human.** A reversible analysis choice, such as a bin width or a cleaning step. Proceed, state the choice, and let the human correct it. Load the **principle-never-block-on-the-human** skill.
 
+## Human runs the data
+
+The human executes. You never see a real row.
+
+- Never read real data. No Read, `cat`, `head`, query, or preview of a data file, a warehouse table, or a notebook's saved outputs. Never run a script, a notebook, or a query against real data. Delegates follow the same rule.
+- Synthetic data is yours to run. Build fixtures and synthetic frames with a fixed seed that follow the real schema, put them under `tests/` or a path with `synthetic` in its name, and run code, tests, and checks on them with `uv run`. Prove each script runs and each check can fail before you hand it over.
+- Learn the schema from code, docs, or the human. When nothing in the repo states it, put a schema step (`lf.collect_schema()` and a row count) in the first run request.
+- Scripts that run on real data print aggregates only. Allowed: row counts, duplicate and orphan counts, null shares, distinct counts, min, max, quantiles, group level tables of about 50 rows or fewer, model metrics, and `PASS` or `FAIL` lines. Never print raw rows, sample rows, or offending rows. Print a top values list only for a low cardinality category column with no personal data. For text, print pattern counts (lengths, character classes, format matches), not values.
+- Put the verification inside the script. Each check is an assertion or a `PASS`/`FAIL` line with its expected value, and the script ends with one summary block. The pasted summary is the evidence, so it must say on its own whether the result holds.
+- Batch every check the next decision needs into one request. Run competing options in one script that prints one comparison table. Each round trip costs the human time.
+- After a run request, stop and wait. It is the one place the work blocks on the human. Never report a number that no run produced.
+- Read the paste critically. Check that the row counts and the `PASS` lines match what you expected before you build on them. If the paste contains raw rows by mistake, do not quote them, and tell the human.
+
+A run request has this shape:
+
+```
+Run request
+Run: <command, or the notebook and cells, from a clean kernel or process, with the as-of and seed>
+Checks: <each check and its expected result>
+Paste back: <the summary block only>
+Next: <what each outcome leads to>
+```
+
+Charts follow the same split. You render and look at a chart built on synthetic data to check the layout. The human renders the real one and shares the image or answers the visual checklist. An image of an aggregated chart is fine to read.
+
 ## Autonomy
 
-**Just do it.** Read-only queries on sources you were given, local scripts, notebook runs in a clean process, chart drafts, and reversible analysis choices proceed. State each choice in the reply.
+**Just do it.** Code, scripts, tests, and runs on synthetic data, chart drafts on synthetic data, run requests, and reversible analysis choices proceed. State each choice in the reply.
 
 **Always pause** for these, every time:
 
+- Any run on real data. It goes to the human as a run request.
 - Writes to a shared warehouse or a production table.
 - Creating or changing a scheduled job, an alert, or a dashboard that other people see.
 - Deleting data, tables, or files.
@@ -109,6 +137,7 @@ Diverse panels (**interrogate**, **arena**, **reflect**, and swarm second opinio
 
 Every subagent call follows these defaults:
 
+- Every brief carries the Human runs the data rule, including briefs that another skill writes, such as **swarm**, **arena**, **interrogate**, **how**, **why**, **architect**, and **reflect**. Paste the rule's first two bullets into the brief. A delegate that needs a real run reports a run request back instead.
 - Subagents run in the background by default. Check each result before you report it.
 - There is no `resume`. For a fix round, a follow-up, or a retry, spawn a fresh agent and paste the original brief, every later directive, and the prior report into it.
 - Use file pointers, not pasted context. Say what done means and what to report.
@@ -123,8 +152,9 @@ You own every subagent's work. Review its diff or output, then write your own su
 - No colon used as a mid-sentence connector. A colon before a list is fine.
 - Terse is not a reason to drop content. Keep every section the playbook names, including caveats, choices, and open decisions.
 - Lead an analysis reply with the answer. Then give the evidence (the query or code, row counts, the spread), the method, the caveats, and the confidence.
-- Label every claim in the same sentence as its evidence. Mark it measured, inferred, or guess.
+- Label every claim in the same sentence as its evidence. Mark it measured (from the human's pasted output, naming the run), synthetic (your run on synthetic data), inferred, or guess. A number with no run behind it is marked not yet run.
 - Name the consumer. Say who reads the number and what decision it changes. Then say what the next analyst who owns this code inherits.
+- When the work waits on the human, end the reply with the run request.
 - Never fabricate a link, citation, or query result. Link only artifacts you produced or read this session.
 
 Every playbook ends with a reply written this way. A playbook's own reply lines name only the content unique to that playbook.

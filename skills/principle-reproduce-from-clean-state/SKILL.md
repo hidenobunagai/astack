@@ -5,7 +5,7 @@ description: "Apply before reporting a result, handing off a notebook, or mergin
 
 # Reproduce from Clean State
 
-A result counts only when it can be reproduced from scratch. Restart the kernel or open a new process, run from the top, and read what comes out. A number that exists only in a warm kernel is not a result.
+A result counts only when it can be reproduced from scratch. Restart the kernel or open a new process, run from the top, and read what comes out. On real data the human does the run, from a run request, and pastes the summary back. A number that exists only in a warm kernel is not a result.
 
 Notebooks keep state across cells. A variable from a deleted cell, a file overwritten earlier, or cells run out of order can produce numbers that no one can rebuild. Saved outputs show what was true once, not what the code does now.
 
@@ -16,6 +16,6 @@ Notebooks keep state across cells. A variable from a deleted cell, a file overwr
 - Pin the input. Every run takes an explicit as-of timestamp, partition, or snapshot id, and filters the source to rows that existed at that point, for example `ingested_at <= as_of`. Write the as-of value into the output next to the command that produced it. Without a pinned input, two clean runs days apart can differ for reasons that are not bugs.
 - Cell order is a bug. If a top-to-bottom run gives a different result from the saved one, the notebook is wrong. Fix the order, or move the logic into functions.
 - Keep raw data, credentials, and notebook outputs out of commits. Commit the code and the lockfile. The number lives in the report, next to the command that produced it.
-- Run it a second time and compare. Two clean runs that match are the minimum evidence.
+- Run it a second time and compare. Two clean runs that match are the minimum evidence. Ask for both runs in one request, and have the script print a checksum of its outputs so the two pastes compare at a glance.
 
 You skipped this when a result exists only in a warm kernel, when a saved notebook output is quoted as the answer, or when a rerun with the same inputs gives a different number.

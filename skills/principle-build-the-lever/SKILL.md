@@ -11,9 +11,9 @@ A script, a SQL query file, a Polars pipeline, or a re-runnable check does the s
 
 Default to building the lever. Skip it only for trivial work, such as one obvious edit or one glance at a table.
 
-- Do the first unit by hand to learn the recipe. Then script it. Prove the script by rerunning it on that unit and comparing with the hand result. Make it safe to rerun.
+- Do the first unit on synthetic data to learn the recipe. Then script it. Prove the script on synthetic data, including a case it must reject, before the human runs it on real data. Make it safe to rerun.
 - Use a script for repeated transforms, a generator for repetitive notebooks or report pages, a pinned query file for analysis, and a re-runnable assertion script for checks.
-- A deterministic lever beats fan-out. If one script can process every partition, table, or segment in one pass, run it yourself. Do not hand the same manual check to subagents.
+- A deterministic lever beats fan-out. If one script can process every partition, table, or segment in one pass, hand the human that one script in one run request. Do not hand the same manual check to subagents.
 - When you fan work out to subagents, write the lever as a skill they all read: the recipe, the verification contract, and the do-not-touch fences in one artifact. Keep it outside the write scope of the delegates so they cannot quietly edit the contract.
 - Commit the lever with `git commit` when the work outlives the session. Commit code, queries, and lockfiles. Never commit raw data, credentials, or notebook outputs.
 

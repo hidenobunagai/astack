@@ -35,7 +35,7 @@ Launch all reviewers in one message with the `Agent` tool. Use `subagent_type` `
 | --- | --- | --- | --- |
 | A | `opus` | `high` | Result validity: grain, joins, filters, nulls, time windows, and whether the numbers answer the intent. |
 | B | `sonnet` | `high` | Code quality: structure, duplication, reuse of canonical definitions, and clarity. |
-| C (high stakes only) | `haiku` | `high` | Reproducibility: clean-process re-run, pinned dependencies, fixed seeds, and snapshot dates. |
+| C (high stakes only) | `haiku` | `high` | Reproducibility: clean-process re-run (on synthetic data, or in the human's pasted runs), pinned dependencies, fixed seeds, and snapshot dates. |
 
 Add reviewer C only when the change is high stakes, as the table shows.
 

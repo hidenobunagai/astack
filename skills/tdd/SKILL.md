@@ -42,7 +42,7 @@ def test_dedupe_keeps_latest_row_per_order():
 
 ## If a Failing Test Is Impractical
 
-Use the closest executable regression check instead: a script that re-runs the transform on a sampled extract, a row-count or checksum assertion on the real output, a data-quality check on the output table, or a saved query that compares old and new results. The **data-quality-check** playbook of the analyst-mode skill covers the last one.
+Use the closest executable regression check instead, written by you and run by the human: a script that re-runs the transform on a sampled extract, a row-count or checksum assertion on the real output, a data-quality check on the output table, or a saved query that compares old and new results. The **data-quality-check** playbook of the analyst-mode skill covers the last one.
 
 Prefer no new test over a bad test. A bad test is one that mostly tests mocks, encodes current implementation details, depends on file paths or wall-clock time, needs a warehouse for a small fix, or would be deleted right after it proves the fix.
 

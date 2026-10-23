@@ -1,6 +1,6 @@
 ### Metric investigation
 
-**You own the answer. Confirm the move is real, find what drives it, and reconcile the parts to the total before you report.** Investigations are read-only. They produce a cited explanation with a confidence label, not a change to a pipeline or dashboard.
+**You own the answer. Confirm the move is real, find what drives it, and reconcile the parts to the total before you report.** Investigations are read-only. They produce a cited explanation with a confidence label, not a change to a pipeline or dashboard. You write the queries and the script. The human runs them on real data. Plan the run requests so steps 2 to 8 fit in one or two rounds: one script that prints the premise checks, the spread, the baselines, the decomposition, the residual, and the capped reruns.
 
 1. Write the metric definition in words and in the query: numerator, denominator, filters, population, time window, and timezone. Take the definition from the owner's dashboard code or documentation, not from memory. Write down the decision the answer serves and the result that would change it. Use the **principle-define-the-question** skill.
 2. Attack the premise that the metric moved. Use the **principle-attack-the-premise** skill. Check these first:
@@ -53,12 +53,12 @@
    If the rates are flat and the total moved, the mix shifted. That is a mix effect, not Simpson's paradox. The **principle-explain-the-number** skill covers both.
 6. Rank the drivers by absolute contribution. List the segments that explain most of the move, and the row count under each. Flag any segment with few rows, because its rate is noise. Give each segment a binomial or bootstrap interval for its rate, record the number of segments tested, and apply a multiple-comparison adjustment (Holm or Benjamini-Hochberg) before you name a driver.
 7. Reconcile the parts to the total. The sum of the segment effects must equal the total change. If the residual is not zero, a NULL segment, a dropped row, or a join is wrong. Find it before you go on. Use the **principle-respect-the-grain** skill.
-8. Test the top driver as an artifact. Ask what else could produce it: fan-out, one account or customer dominating, a changed filter, a sentinel value. Rerun with that suspect removed or capped. If the total still moves the same way, the driver survives.
+8. Test the top driver as an artifact. Ask what else could produce it: fan-out, one account or customer dominating, a changed filter, a sentinel value. Have the script also print the total with that suspect removed or capped, and the share of the top single account in the driver segment. If the total still moves the same way, the driver survives.
 9. Label every claim with confidence:
-   - **High**: the move exceeds the spread with an interval that excludes zero, it reconciles, it re-runs from a clean process, and an independent source agrees.
+   - **High**: the move exceeds the spread with an interval that excludes zero, it reconciles, it re-runs from a clean process in the human's run, and an independent source agrees.
    - **Medium**: reconciled on one source, no independent check.
    - **Low**: inferred, with a suspect not yet ruled out.
-10. Leave one re-runnable script, `analysis/metric_<name>.py`, that takes the period bounds as arguments and prints the baseline, the decomposition table, and the residual. Run it again from a clean process and read the printed values. Use the **principle-reproduce-from-clean-state** skill.
+10. Leave one re-runnable script, `analysis/metric_<name>.py`, that takes the period bounds as arguments and prints the baseline, the decomposition table, and the residual. Run it on synthetic data with a planted mix shift and a planted rate shift, and confirm it recovers both with a zero residual. Then hand it over as a run request (analyst-mode, Human runs the data) and read the pasted values. Use the **principle-reproduce-from-clean-state** skill.
 
 **Reply:** the answer first, then the support.
 - One line that states the answer, the size of the move, and the segment that drives it, with its confidence label. For example, "Conversion fell 2.1 points, and mobile web accounts for 1.6 of that. Confidence: high."

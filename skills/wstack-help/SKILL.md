@@ -118,7 +118,7 @@ The principle skills are one-rule skills that analyst-mode reads and cites in it
 | The mode stopped applying after a few turns | Type `/wstack:analyst-mode` again with the task. |
 | A question got treated as the next step of the last task | Say "new task", or say the turn does not need the mode. |
 | A number came with no row count or baseline | Ask for the row counts before and after each join, and the baseline, per explain-the-number. |
-| A notebook result changed on re-run | Ask for a re-run from a clean process, per reproduce-from-clean-state. |
+| A notebook result changed on re-run | Send a run request for two clean runs that print checksums, per reproduce-from-clean-state. |
 | Parallel agents overwrote each other | Give each writer its own worktree (`isolation: "worktree"`, or `git worktree add <path>`). |
 | Runs cost more than expected | See the cost paragraph under Get started. |
 | The reply claims success from a green check | Ask for the actual output values, not the status. That is the prove-it-works principle. |

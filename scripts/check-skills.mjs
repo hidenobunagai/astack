@@ -37,7 +37,7 @@ function frontmatter(text, where) {
   return fields;
 }
 
-const skills = readdirSync(skillsRoot).filter((n) => statSync(path.join(skillsRoot, n)).isDirectory());
+const skills = readdirSync(skillsRoot).filter((n) => !n.startsWith(".") && statSync(path.join(skillsRoot, n)).isDirectory());
 const known = new Set(skills);
 
 for (const name of skills) {

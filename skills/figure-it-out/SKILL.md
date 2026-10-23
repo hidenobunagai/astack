@@ -37,7 +37,7 @@ Then execute the design. Add its steps to the todolist as concrete items between
 
 Each unit is an experiment. State the hypothesis, make the smallest change, measure against the predicate on the real artifact, keep it if it advanced, revert it if it didn't. Apply the **principle-sequence-verifiable-units** skill, verifying each unit before starting the next instead of batching checks at the end.
 
-- Verify by inspecting the artifact, never a self-report. Re-run the pipeline or notebook from a clean process and read the output values. When something passes too easily, suspect the observation method before the system. A check that compares a table to itself passes every time.
+- Verify by inspecting the artifact, never a self-report. Re-run the pipeline or notebook from a clean process and read the output values: yours on synthetic data, the human's on real data through a run request. When something passes too easily, suspect the observation method before the system. A check that compares a table to itself passes every time.
 - Pair delegated work with a judge. If a worker games the gate, reset and harden the contract. If the gate itself is wrong, fix the gate in its own change rather than routing around it.
 - A verdict is VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Inconclusive is not a pass. Don't hide a negative.
 

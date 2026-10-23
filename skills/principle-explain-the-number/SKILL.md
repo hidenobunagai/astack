@@ -5,7 +5,7 @@ description: "Apply before you trust, report, or act on a number you computed: a
 
 # Explain the Number
 
-- **Ask "why this value and not double or half?"** Name what drives the result: which segment, which period, which rows, which filter. Get it from a breakdown you ran, not from reading the code. If you cannot say which part of the data produces most of the number, you do not know what you measured.
+- **Ask "why this value and not double or half?"** Name what drives the result: which segment, which period, which rows, which filter. Get it from a breakdown that ran, yours on synthetic data or the human's on real data, not from reading the code. If you cannot say which part of the data produces most of the number, you do not know what you measured.
 - **List what else the number could be measuring, and rule out each one with evidence.** The usual suspects in data work:
   - Join fan-out or dropped rows. Compare row counts and key uniqueness before and after each join (**principle-respect-the-grain**).
   - Nulls, sentinels (`0`, `-1`, `""`, `1970-01-01`), and duplicates silently included or excluded.

@@ -58,7 +58,7 @@ Commit it only when the work is ambitious enough that a reviewer needs the trail
 At the end of the run, before handing back, check the log told the truth. Read this run's transcript at `~/.claude/projects/<slug>/<session>.jsonl`, where the slug is the workspace path with its separators replaced by `-` (list `~/.claude/projects/` to find the exact folder). Don't glob across `~/.claude/projects/*/`. That reads unrelated private chats. Walk this run's rows against what actually happened. Each stretch of them begins at one of this run's `start` rows, or at the first row if this run created the log, and ends at the next `start` row of another run:
 
 - Check that every row maps to a real decision or action.
-- Check that each row's evidence resolves and shows what the row claims. Open the notebook cell, rerun the query, or count the rows.
+- Check that each row's evidence resolves and shows what the row claims. Open the converted notebook cell, rerun the synthetic check, or match the row to the human's pasted output.
 - A fork, pivot, or abandoned approach that shaped the work but isn't logged is a gap. Add it.
 
 Correct the log, not the story. The audit never edits or removes a row, even an invented one. When a row records neither a real decision nor a real action, or its claim or evidence is wrong, add a row that supersedes it with what actually happened and a pointer that resolves. This audit does not check rows outside this run's stretches. If this run's own work shows one of them is wrong, supersede it like any wrong call.
