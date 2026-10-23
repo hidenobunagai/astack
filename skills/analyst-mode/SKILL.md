@@ -157,4 +157,4 @@ A large or cross-cutting effort, or work the user steps away from to review late
 - **Pause safely** (`playbooks/pause-safely.md`). An explicit pause that leaves a checkpoint a cold-start agent can resume from.
 - **Session pickup** (`playbooks/session-pickup.md`). Resuming another agent's work from its transcript at `~/.claude/projects/<slug>/<session>.jsonl`, or from a pushed branch.
 - **Authoring a skill** (`playbooks/authoring-a-skill.md`). Writing or editing a SKILL.md.
-- **Opening a PR** (`playbooks/opening-a-pr.md`). Invoked at the end of every other playbook. Uses git and `gh pr create`.
+- **Opening a PR** (`playbooks/opening-a-pr.md`). Invoked at the end of every other playbook. Uses plain git and hands the review request to the team's own tool.

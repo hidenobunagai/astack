@@ -30,7 +30,7 @@ Before spawning investigators, build the seed context inline:
 
 - File paths and line ranges, key symbols (functions, models, constants, metric names).
 - The recent history of the target, with PR numbers when the commit messages carry them: `git log --follow -n 20 --format='%h %ad %s' --date=short -- <path>`, and `git blame -w -C <path>` for the last change to each line range.
-- For each substantive change, the PR body and discussion: `gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,comments,reviews`.
+- For each substantive change, the review request's description and discussion, through the team's review tool when the session can reach it.
 - Any ticket IDs in commit messages or PR bodies.
 - Any notebook or dashboard that mentions the target.
 
@@ -44,12 +44,12 @@ This anchor goes to every investigator and to the synthesizer.
 
 Before spawning, list the available MCPs and CLIs. MCP tools whose schemas are deferred must be loaded first (ToolSearch). Map each source to one evidence category:
 
-1. **Source control history**: git log, git blame, other read-only git views, `gh`, tests, and in-repo notebooks as files. Always spawn. It is the one guaranteed source.
+1. **Source control history**: git log, git blame, other read-only git views, the team's review tool when reachable, tests, and in-repo notebooks as files. Always spawn. It is the one guaranteed source.
 2. **Notebook history**: the notebooks and their version history. Usually part of category 1, but spawn it separately when a project has many notebooks.
 3. **Query history**: the warehouse's query log, or saved SQL in the repo, through a warehouse MCP or CLI. Best at what was actually run and what it cost.
 4. **Dashboards and metric definitions**: BI dashboards, semantic-layer or metric YAML in the repo, and alert thresholds.
 5. **Pipeline and job runs**: orchestrator run logs, data-quality check results, and failure history.
-6. **Issue / ticket tracker**: Linear, Jira, GitHub Issues. Best at the business reason for a data request or definition change.
+6. **Issue / ticket tracker**: Jira, Redmine, Backlog, and similar. Best at the business reason for a data request or definition change.
 7. **Long-form documents**: data dictionaries, metric specs, analysis plans, findings reports (Notion, Confluence, Google Docs).
 8. **Real-time team chat**: Slack, Teams, Discord. Best at deliberation that never reached a doc.
 9. **Agent memory**: engram through the `engram:recall` skill. Past sessions and saved notes often hold the earlier decision. Always spawn when engram is installed.

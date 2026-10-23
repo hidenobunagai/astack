@@ -1,9 +1,9 @@
-# Source control history (git, gh, in-repo)
+# Source control history (git, in-repo)
 
 ## What this source contains
 
 - Change history (descriptions, dates, authors, diffs) in the git repo
-- PR descriptions, review comments, and discussion (via `gh`)
+- Merge commits and review discussion, when the team's review tool is reachable from the session
 - Code comments, TODOs, and notes that explain a threshold or a filter
 - Tests whose names and assertions encode the edge cases that motivated a change
 - Files that changed together (co-change signal)
@@ -37,11 +37,13 @@ rg -n -C2 '(TODO|FIXME|NOTE|because|workaround)' <target-file>
 rg -l '<symbol>' --glob '*test*'
 ```
 
-For PRs, read the body and discussion of each PR number from the descriptions:
+Merge commits often carry the review request number and title. List them:
 
 ```bash
-gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,comments,reviews
+git log --merges --format='%h %ad %s' --date=short -- <path>
 ```
+
+When the team's review tool has a CLI or MCP in this session, read the description and discussion of each request number through it. Otherwise report the numbers and say the discussion was not reachable.
 
 ## What good evidence looks like
 

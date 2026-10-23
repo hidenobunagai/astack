@@ -41,7 +41,7 @@ Search the places grep does not reach:
 
 ## Steps
 
-1. Read the change. The diff, the columns and tables it adds, changes, and deletes, and what it now does differently, including the part the diff doesn't spell out. Use the **why** skill to pull the PR and commits, with `git log` and `gh pr view`.
+1. Read the change. The diff, the columns and tables it adds, changes, and deletes, and what it now does differently, including the part the diff doesn't spell out. Use the **why** skill to pull the PR and commits, with `git log` and the team's review tool when reachable.
 2. Find the one fact it's safe because of. Most changes that look risky are safe because of a single fact, like "this join only adds columns and keeps the grain, because `order_id` is unique in `orders_clean`". Find that fact. If it holds, most risky cases are cleared at once. Spend your time here, not on a long list of maybes.
 3. Look where grep stops. Read the source of the library you call, and check its pinned version in `uv.lock` and any local patch. Work out when things run: lazy evaluation at `collect()` time, a scheduled job that runs before the change lands, a notebook that is still open with old state. Follow what a symbol search misses: the dashboard definition, a notebook cell, a Parquet file another team reads, a feature flag, code three hops downstream.
 4. Be honest about each risk. Give it a real chance of happening and a real cost if it does. Keep the risks you confirmed. List the ones you checked and cleared separately. Same rules as the **why** skill. Cite a real `file:line`, a search that finds nothing is still an answer, and never make up a consumer or a table.

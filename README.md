@@ -4,14 +4,14 @@ A Claude Code plugin for data analysis work: Python with uv and Polars, Jupyter 
 
 wstack is adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.30 by Lauren Tan (MIT). The general engineering workflows are kept, rewritten with Claude Code tool names. The web, PR-automation, and Cursor-only parts are dropped. Data-specific playbooks and principles are added.
 
-It assumes a plain git and GitHub (`gh`) workflow, works on Windows, macOS, and Linux, and uses [engram](https://github.com/hidenobunagai/engram) for memory of past sessions when it is installed.
+It assumes plain git with any hosting or review tool (or none), works on Windows, macOS, and Linux, and uses [engram](https://github.com/hidenobunagai/engram) for memory of past sessions when it is installed.
 
 > Provided as-is, with no support. Issues and pull requests may go unanswered. Fork it and make it yours.
 
 ## Requirements
 
 - Claude Code
-- git and the GitHub CLI (`gh`). On Windows, install [Git for Windows](https://git-scm.com/downloads/win) so Claude Code's Bash tool runs in Git Bash.
+- git. On Windows, install [Git for Windows](https://git-scm.com/downloads/win) so Claude Code's Bash tool runs in Git Bash. No hosting service or CLI is required. The agent pushes only when a remote exists and hands the review request to you.
 - [uv](https://docs.astral.sh/uv/) for Python
 - Node.js 18 or newer for `npx` tools and the skill check
 - Optional: [engram](https://github.com/hidenobunagai/engram) for recall of past sessions and saved notes

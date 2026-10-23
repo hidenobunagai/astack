@@ -1,4 +1,4 @@
-# Issue and ticket tracker (Linear, Jira, GitHub Issues)
+# Issue and ticket tracker (Jira, Redmine, Backlog, and similar)
 
 ## What this source contains
 

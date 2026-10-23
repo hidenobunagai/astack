@@ -14,7 +14,7 @@ const forbidden = [
   /poteto/i, /pstack/i, /\bcursor\b/i, /\.mdc\b/, /`Task`|\bTask (tool|call|subagent)/, /AskQuestion\b/,
   /generalPurpose/, /readonly: true/, /\bgrok/i, /\bgpt-/i, /bugbot/i, /cloud agent/i, /\bketchup\b/i,
   /\bbro\b/, /comment-sicko/, /deslop/, /control-(ui|cli)/, /\/loop 1h/, /[–—]/,
-  /\bjj\b/, /jujutsu/i, /bookmark/i, /memmini/i, /\bpmg\b/, /\bbunx?\b/, /python-standards/, /web-verify/,
+  /\bjj\b/, /jujutsu/i, /\bgh (pr|issue|api)\b/, /GitHub/, /bookmark/i, /memmini/i, /\bpmg\b/, /\bbunx?\b/, /python-standards/, /web-verify/,
 ];
 const problems = [];
 

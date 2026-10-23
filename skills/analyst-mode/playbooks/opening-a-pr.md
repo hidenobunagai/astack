@@ -1,6 +1,6 @@
 ### Opening a PR
 
-Invoked at the end of every other playbook. Version control is git with `gh` for GitHub.
+Invoked at the end of every other playbook. Version control is git. The team's hosting and review tool varies (a git server with merge requests, a shared remote, or no remote at all), so this playbook uses plain git and names no hosting CLI. "PR" in wstack means a review request in whatever tool the team uses. With no review tool, it means a pushed branch, or a local branch, plus a written description the user hands to the reviewer.
 
 **Branch.** Work on a branch off the base: `git switch -c <name> <base>`. Parallel writers each get their own worktree (`isolation: "worktree"` on the `Agent` call, or `git worktree add <path> -b <name> <base>`). When a branch mixes unrelated work, move the unrelated part to its own branch. For a tangled branch, save the useful parts, start a fresh branch from the base, and redo the minimal change.
 
@@ -25,17 +25,15 @@ Run the **no-comments** skill over the diff. Write the PR title and body with th
 - `## Blast Radius`: which tables, dashboards, reports, and scheduled jobs the change touches, and why that is safe or risky. A change to a shared table or a scheduled job says so here and waits for the human before merge.
 - `## Verification`: 1 to 3 bullets, each a clean-state run and its outcome. For a number, write `before → after` with its unit and row count. Link to the notebook or report for the rest.
 
-**Push and open.** Push the branch, then open the PR ready, never as a draft:
+**Push and hand off.** Check `git remote -v` first.
 
-```
-git push -u origin <name>
-gh pr create --title "<title>" --body-file <body.md>
-```
+- With a remote, push the branch: `git push -u origin <name>`. Then open the review request with the team's own tool only when its CLI or MCP is available in the session and the user has used it before. Otherwise give the user the branch name, the title, and the description file, and stop there.
+- With no remote, leave the work committed on the branch and hand over the branch name, the title, and the description file.
 
-Omit `--draft`. Keep the body file outside the repo, or in an ignored path.
+Write the title and description as above in a file outside the repo, or in an ignored path. Never create a remote, change a remote URL, or push to a branch other than your own.
 
-**Stacks.** Prefer several narrow PRs to one large PR. A stack is a branch chain. The root PR targets `main`. Each child branches from its parent (`git switch -c <child> <parent>`), and its PR targets the parent: `gh pr create --base <parent>`. When a parent merges, move the child onto `main` with `git rebase --onto main <parent> <child>`, push it with `git push --force-with-lease`, then retarget it with `gh pr edit <child> --base main`. Force-push only your own branch. Branch from `main` only for independent work.
+**Stacks.** Prefer several narrow PRs to one large PR. A stack is a branch chain. The root PR targets `main`. Each child branches from its parent (`git switch -c <child> <parent>`), and its review request targets the parent. When a parent merges, move the child onto `main` with `git rebase --onto main <parent> <child>`, push it with `git push --force-with-lease`, and tell the user to retarget its review request to `main`. Force-push only your own branch. Branch from `main` only for independent work.
 
-**Babysit.** Opening a PR does not start a review loop. Post the URL and keep building. Finish the phase or stack first. Check CI or comments on a PR only when the user asks, after the whole stack exists. Push back when feedback drifts from the intent of the change.
+**Babysit.** Opening a PR does not start a review loop. Post the URL, or the branch name when there is no URL, and keep building. Finish the phase or stack first. Check CI or comments on a PR only when the user asks, after the whole stack exists. Push back when feedback drifts from the intent of the change.
 
-A subagent that opens a PR runs the **interrogate** skill and the **no-comments** skill, posts the URL, and returns to the parent without a review loop.
+A subagent that opens a PR runs the **interrogate** skill and the **no-comments** skill, posts the URL or the branch name, and returns to the parent without a review loop.

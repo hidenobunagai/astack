@@ -24,7 +24,7 @@ Infer the need from the message and the conversation. A named situation, such as
 Check the repo state that changes the answer. Mention it only when it matters:
 
 - No `pyproject.toml` or `uv.lock` in the analysis repo means the reproduction rules have no pinned environment yet. Offer `uv init` before the first re-run.
-- No `.git` directory means the folder is not a git repo. The PR steps need `git init` and a GitHub remote first.
+- No `.git` directory means the folder is not a git repo. The PR steps need `git init` first. A remote is optional.
 
 ## Get started
 
