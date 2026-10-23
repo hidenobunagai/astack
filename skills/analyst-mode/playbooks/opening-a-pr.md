@@ -1,6 +1,6 @@
 ### Opening a PR
 
-Invoked at the end of every other playbook. Version control is git. The team's hosting and review tool varies (a git server with merge requests, a shared remote, or no remote at all), so this playbook uses plain git and names no hosting CLI. "PR" in wstack means a review request in whatever tool the team uses. With no review tool, it means a pushed branch, or a local branch, plus a written description the user hands to the reviewer.
+Invoked at the end of every other playbook. Version control is git. The team's hosting and review tool varies (a git server with merge requests, a shared remote, or no remote at all), so this playbook uses plain git and names no hosting CLI. "PR" in astack means a review request in whatever tool the team uses. With no review tool, it means a pushed branch, or a local branch, plus a written description the user hands to the reviewer.
 
 **Branch.** Work on a branch off the base: `git switch -c <name> <base>`. Parallel writers each get their own worktree (`isolation: "worktree"` on the `Agent` call, or `git worktree add <path> -b <name> <base>`). When a branch mixes unrelated work, move the unrelated part to its own branch. For a tangled branch, save the useful parts, start a fresh branch from the base, and redo the minimal change.
 

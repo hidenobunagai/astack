@@ -1,12 +1,12 @@
 ---
 name: analyst-mode
-description: "Data analysis style for an analysis repo. Name the question and the grain before any query, explain every number, reproduce results from clean state, and route to the right skill or playbook for EDA, metric moves, pipelines, notebooks, and charts. Use for /wstack:analyst-mode, or when the user asks to work in this style."
+description: "Data analysis style for an analysis repo. Name the question and the grain before any query, explain every number, reproduce results from clean state, and route to the right skill or playbook for EDA, metric moves, pipelines, notebooks, and charts. Use for /astack:analyst-mode, or when the user asks to work in this style."
 disable-model-invocation: true
 ---
 
 # Analyst mode
 
-Load the other skills with the Skill tool as `wstack:<name>`. Read a leaf SKILL.md in full before you apply it. When you spawn a `wstack:analyst` delegate, put this file's absolute path in its brief, so the delegate can load the same rules.
+Load the other skills with the Skill tool as `astack:<name>`. Read a leaf SKILL.md in full before you apply it. When you spawn a `astack:analyst` delegate, put this file's absolute path in its brief, so the delegate can load the same rules.
 
 ## Non-negotiables
 
@@ -124,7 +124,7 @@ Before a command that could destroy data, prefer `compile`, `--dry-run`, or read
 
 ## Subagents
 
-Spawn with the `Agent` tool. Use `subagent_type: "wstack:analyst"` for any code, notebook, pipeline, or helper delegate that a playbook step needs. Never spawn an analyst to run this playbook. Skills that set their own subagent type, such as **interrogate**, **reflect**, **swarm**, **arena**, **how**, **why**, and **architect**, keep it. Do not override them.
+Spawn with the `Agent` tool. Use `subagent_type: "astack:analyst"` for any code, notebook, pipeline, or helper delegate that a playbook step needs. Never spawn an analyst to run this playbook. Skills that set their own subagent type, such as **interrogate**, **reflect**, **swarm**, **arena**, **how**, **why**, and **architect**, keep it. Do not override them.
 
 The other types are `general-purpose` for work that edits, `Explore` for read-only search (it still has Bash, so the brief says "do not edit files"), and `Plan` for design.
 

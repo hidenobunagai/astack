@@ -1,6 +1,6 @@
 ---
 name: plain-words
-description: "Restate the last message, such as an analysis result, a metric explanation, or a pipeline status, in plain human language with no jargon. Use for 'plain words', 'say it simply', 'explain it without jargon', or /wstack:plain-words."
+description: "Restate the last message, such as an analysis result, a metric explanation, or a pipeline status, in plain human language with no jargon. Use for 'plain words', 'say it simply', 'explain it without jargon', or /astack:plain-words."
 ---
 
 Restate your last message. Stop using jargon and speak coherently. State it more simply and concisely, like one human talking to another.

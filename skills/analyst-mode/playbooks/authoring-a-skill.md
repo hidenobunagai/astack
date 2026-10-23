@@ -2,8 +2,8 @@
 
 **You own the skill's voice.**
 
-1. Use the skill-creator skill for the SKILL.md structure. A wstack skill carries only `name` and `description`, plus `disable-model-invocation: true` where the spec says so. `name` equals the directory name.
-2. Validate the skill. The frontmatter has `name` and `description`, the referenced files exist, and the cross-skill links resolve. In the wstack repo, run `node scripts/check-skills.mjs` and fix every error in your files.
+1. Use the skill-creator skill for the SKILL.md structure. A astack skill carries only `name` and `description`, plus `disable-model-invocation: true` where the spec says so. `name` equals the directory name.
+2. Validate the skill. The frontmatter has `name` and `description`, the referenced files exist, and the cross-skill links resolve. In the astack repo, run `node scripts/check-skills.mjs` and fix every error in your files.
 3. Write test cases only if the change alters structure, such as which files a reader touches or which steps run. Skip them when the change is wording or tone.
 4. Run the opening-a-pr playbook (`playbooks/opening-a-pr.md`).
 

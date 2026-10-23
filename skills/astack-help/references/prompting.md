@@ -21,9 +21,9 @@ A prompt states the question, the data, and the check for done. The analyst-mode
 ## Load the context first
 
 - For a noisy report, ask the agent to restate the question and the grain in plain words before it queries anything. A misreading shows up before any work exists.
-- In a fresh chat, use `/wstack:recall` on the topic. Older chats hold context that the new agent lacks.
-- Before a change to an unfamiliar pipeline, use `/wstack:how` for the data flow and `/wstack:why` for the reasons. An agent without a traced model fixes the symptom at the first plausible step.
-- Use `/wstack:teach` to make the case for a method, as in "convince me this join does not fan out". A case is easier to check than a summary.
+- In a fresh chat, use `/astack:recall` on the topic. Older chats hold context that the new agent lacks.
+- Before a change to an unfamiliar pipeline, use `/astack:how` for the data flow and `/astack:why` for the reasons. An agent without a traced model fixes the symptom at the first plausible step.
+- Use `/astack:teach` to make the case for a method, as in "convince me this join does not fan out". A case is easier to check than a summary.
 
 ## Design before the plan
 
@@ -43,7 +43,7 @@ A prompt states the question, the data, and the check for done. The analyst-mode
 - Write done as checks that every iteration can run, such as row counts, assertions, and reproduced values.
 - Ask for a fresh branch or worktree off a named base.
 - Pre-answer what the agent would stop for, such as "do not ask me before committing a notebook".
-- Ask for a decision log to audit later with `/wstack:show-me-your-work`.
+- Ask for a decision log to audit later with `/astack:show-me-your-work`.
 - Give an exit. Say "if you are stuck after a few hours, stop and write up why".
 
 ## Steer in one line

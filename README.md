@@ -1,8 +1,8 @@
-# wstack
+# astack
 
-A Claude Code plugin for data analysis work: Python with uv and Polars, Jupyter and marimo notebooks, and charts and dashboards. It gives the agent a strict working style, playbooks for common analysis tasks, and principle skills that keep numbers honest.
+A Claude Code plugin for data analysis work: Python with uv and Polars, Jupyter and marimo notebooks, and charts and dashboards. It gives the agent a strict working style, playbooks for common analysis tasks, principle skills that keep numbers honest, and statistical method guidance for retail and ID-POS analysis.
 
-wstack is adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.30 by Lauren Tan (MIT). The general engineering workflows are kept, rewritten with Claude Code tool names. The web, PR-automation, and Cursor-only parts are dropped. Data-specific playbooks and principles are added.
+astack is adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.30 by Lauren Tan (MIT). The general engineering workflows are kept, rewritten with Claude Code tool names. The web, PR-automation, and Cursor-only parts are dropped. Data-specific playbooks and principles are added.
 
 It assumes plain git with any hosting or review tool (or none), works on Windows, macOS, and Linux, and uses [engram](https://github.com/hidenobunagai/engram) for memory of past sessions when it is installed.
 
@@ -19,21 +19,30 @@ It assumes plain git with any hosting or review tool (or none), works on Windows
 ## Install
 
 ```bash
-claude plugin marketplace add hidenobunagai/wstack
-claude plugin install wstack@wstack
+claude plugin marketplace add hidenobunagai/astack
+claude plugin install astack@astack
 
 # optional: memory of past sessions
 claude plugin marketplace add hidenobunagai/engram
 claude plugin install engram@engram-marketplace
 ```
 
+astack was named wstack up to 0.5.0. To move an existing install, remove the old plugin and marketplace, then install as above:
+
+```bash
+claude plugin uninstall wstack@wstack
+claude plugin marketplace remove wstack
+```
+
+Rename `WSTACK_ANALYST` to `ASTACK_ANALYST` wherever you set it.
+
 For local development, load the working tree without installing:
 
 ```bash
-claude --plugin-dir path/to/wstack
+claude --plugin-dir path/to/astack
 ```
 
-If pstack is also installed, its skills (`how`, `why`, `unslop`, and others) share names and descriptions with wstack's and compete for auto-triggering. Disable pstack in data repos through the project's `.claude/settings.json`:
+If pstack is also installed, its skills (`how`, `why`, `unslop`, and others) share names and descriptions with astack's and compete for auto-triggering. Disable pstack in data repos through the project's `.claude/settings.json`:
 
 ```json
 { "enabledPlugins": { "pstack@cursor-plugins": false } }
@@ -55,7 +64,7 @@ Every subagent call names its model and effort. `opus` runs only the roles that 
 
 ## Use
 
-analyst-mode is on in every session. A `SessionStart` hook loads it at startup, resume, `/clear`, and compaction, so you do not need to type `/wstack:analyst-mode`. Say "analyst-mode off" to drop it for the rest of a session. To skip it for good, such as in headless jobs or repos that are not about data, set `WSTACK_ANALYST=off` in the environment or in the `env` block of `.claude/settings.json`.
+analyst-mode is on in every session. A `SessionStart` hook loads it at startup, resume, `/clear`, and compaction, so you do not need to type `/astack:analyst-mode`. Say "analyst-mode off" to drop it for the rest of a session. To skip it for good, such as in headless jobs or repos that are not about data, set `ASTACK_ANALYST=off` in the environment or in the `env` block of `.claude/settings.json`.
 
 analyst-mode routes each task to a playbook:
 
@@ -73,15 +82,15 @@ analyst-mode routes each task to a playbook:
 | A write-up for readers | `findings-report` |
 | Read-only questions about code or data | `investigation` |
 
-Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/wstack:wstack-help` with a question to find the right one.
+Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/astack:astack-help` with a question to find the right one.
 
 For retail and ID-POS work, the `retail-analytics` skill picks the statistical method. It first separates explaining from predicting, then routes to a method family: experiments, promotion effects from observational data (including chain-wide changes with no control group), uplift targeting, segmentation, cohorts, survival and lifetime value, surveys and conjoint, explanatory regression with shrinkage, forecasting, KPI anomaly detection, marketing mix modeling, trade areas and new stores, and price, assortment, and basket analysis. It also covers manufacturer marketing on retail data (brand share and switching, new-product trial and repeat, trade promotions, retail media), and asks first whose decision the analysis serves, retailer or manufacturer. `references/id-pos-grain.md` lists the line, receipt, customer, and store-day grains, the sales definitions, and the external sharing rules to fix per project.
 
 The principle skills load on demand. The data-specific ones are `principle-define-the-question`, `principle-respect-the-grain`, `principle-reproduce-from-clean-state`, `principle-explain-the-number`, `principle-name-the-estimand`, and `principle-simulate-the-method`. The last two cover statistical work: naming the quantity and the unit of assignment before picking a method, and checking the method on synthetic data with a planted truth before it runs on real data. The `interrogate` skill adds a statistical-validity reviewer when the work makes a statistical claim.
 
-Two agents ship with the plugin. `wstack:analyst` is the delegate for code and notebook work. `wstack:comment-critic` removes comments that do not earn their place.
+Two agents ship with the plugin. `astack:analyst` is the delegate for code and notebook work. `astack:comment-critic` removes comments that do not earn their place.
 
-wstack uses the `dataviz` skill for chart design when your Claude Code has it, and falls back to the rules in the visualization playbook otherwise.
+astack uses the `dataviz` skill for chart design when your Claude Code has it, and falls back to the rules in the visualization playbook otherwise.
 
 ## Develop
 

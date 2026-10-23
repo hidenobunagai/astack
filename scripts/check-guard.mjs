@@ -23,7 +23,7 @@ const cases = [
 ];
 let bad = 0;
 for (const [want, tool_name, tool_input] of cases) {
-  const { status } = spawnSync("node", [hook], { input: JSON.stringify({ tool_name, tool_input }), env: { ...process.env, WSTACK_ANALYST: "" } });
+  const { status } = spawnSync("node", [hook], { input: JSON.stringify({ tool_name, tool_input }), env: { ...process.env, ASTACK_ANALYST: "" } });
   if (status !== want) bad++, console.log(`FAIL ${tool_name} ${JSON.stringify(tool_input)}: exit ${status}, want ${want}`);
 }
 console.log(bad ? `${bad} failing` : `PASS ${cases.length} cases`);

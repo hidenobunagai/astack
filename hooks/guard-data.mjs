@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Block the agent from reading real data: data files and raw notebooks (their saved outputs hold rows).
-// Paths under tests/ or containing "synthetic" or "fixture" stay readable. WSTACK_ANALYST=off skips the guard.
+// Paths under tests/ or containing "synthetic" or "fixture" stay readable. ASTACK_ANALYST=off skips the guard.
 // Matches file paths and common reader commands only. A script that loads data through `uv run` is not caught.
 import { readFileSync } from "node:fs";
 
-if (process.env.WSTACK_ANALYST === "off") process.exit(0);
+if (process.env.ASTACK_ANALYST === "off") process.exit(0);
 
 const DATA = /\.(parquet|csv|tsv|xlsx?|feather|arrow|ipc|jsonl|ndjson|avro|orc|sqlite3?|db|duckdb|pkl|pickle|h5|hdf5|sav|dta|sas7bdat|ipynb)$/i;
 const SYNTHETIC = /(^|\/)tests?\/|synthetic|fixture/i;
@@ -27,7 +27,7 @@ function check({ tool_name, tool_input = {} }) {
 const hit = check(JSON.parse(readFileSync(0, "utf8")));
 if (hit) {
   process.stderr.write(
-    `wstack: blocked reading ${hit}. The human runs everything on real data. ` +
+    `astack: blocked reading ${hit}. The human runs everything on real data. ` +
       `Write a script that prints aggregates only and hand it over as a run request. ` +
       `For a notebook, convert it first with uvx jupytext --to py:percent --output /tmp/<name>.py <notebook>.ipynb.`,
   );

@@ -74,7 +74,7 @@ for (const file of files) {
   text.split("\n").forEach((line, i) => {
     for (const re of forbidden) if (re.test(line)) problems.push(`${rel}:${i + 1}: forbidden ${re} in "${line.trim().slice(0, 90)}"`);
   });
-  for (const m of text.matchAll(/\*\*([a-z][a-z0-9-]+)\*\* skill|\bwstack:([a-z][a-z0-9-]+)/g)) {
+  for (const m of text.matchAll(/\*\*([a-z][a-z0-9-]+)\*\* skill|\bastack:([a-z][a-z0-9-]+)/g)) {
     const ref = m[1] ?? m[2];
     if (!known.has(ref) && !external.has(ref) && !["analyst", "comment-critic"].includes(ref))
       problems.push(`${rel}: unknown skill reference "${ref}"`);

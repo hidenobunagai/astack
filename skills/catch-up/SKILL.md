@@ -1,11 +1,11 @@
 ---
 name: catch-up
-description: "Catch the user up on what changed in this chat since their last message: pipeline runs, numbers, PRs, and agents, in a few plain sentences and small visuals. Give each action item just enough context to make the call. Use for /wstack:catch-up."
+description: "Catch the user up on what changed in this chat since their last message: pipeline runs, numbers, PRs, and agents, in a few plain sentences and small visuals. Give each action item just enough context to make the call. Use for /astack:catch-up."
 ---
 
 # Catch up
 
-Catch the user up on what changed in this chat since the last message they wrote before `/wstack:catch-up`, and help them understand each change, not only where it stands. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
+Catch the user up on what changed in this chat since the last message they wrote before `/astack:catch-up`, and help them understand each change, not only where it stands. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
 
 Use the voice of the **plain-words** skill, not its task: plain words, short sentences, no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the numbers match last month's report", not "reconciliation passed with 0 deltas". Leave out hashes, file paths, commands, job IDs, and row counts unless the user needs one to act. Call each PR, notebook, table, or agent by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
 

@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: "Layered technical-writing standard for data work: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /wstack:technical-writing or when writing or reviewing docs, notebook prose, methods notes, readmes, PR descriptions, or commit messages."
+description: "Layered technical-writing standard for data work: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /astack:technical-writing or when writing or reviewing docs, notebook prose, methods notes, readmes, PR descriptions, or commit messages."
 ---
 
 # Technical writing
