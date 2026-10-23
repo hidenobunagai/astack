@@ -15,6 +15,21 @@ Does the change produce the number or result the intent says it should?
 
 When you suspect a wrong number, trace the path: the input value, each stage, and the output row. Show the path, not only the claim.
 
+## Statistical validity
+
+Does the method answer the question, and does the conclusion follow from the result? See the **principle-name-the-estimand** and **principle-simulate-the-method** skills.
+
+- **Estimand.** Is the quantity stated (ATE or ATT, difference or ratio, for whom)? Does the code estimate that quantity, or a different one?
+- **Unit of assignment.** Was treatment assigned by member, store, or region? Are the errors computed at that level? Store-level assignment analyzed as independent members makes every interval too narrow.
+- **Self-selection and confounding.** In observational data, who chose or was chosen for treatment? Comparing coupon users with non-users measures who they are, not what the coupon did. Check that the design removes this: pre-period balance, overlap, parallel pre-trends, a placebo period.
+- **Assumptions.** Each assumption the method needs has a check that ran, and the result is reported. An untested assumption is a limitation in the write-up.
+- **Multiplicity and forking paths.** How many metrics, segments, and specifications were tried? Is there one primary metric fixed before the result? Are secondary results corrected or labeled exploratory?
+- **Heavy tails.** A few large baskets can move a mean. Was the handling (log, winsorizing, bootstrap) fixed before the result was read?
+- **Conclusion against the interval.** Does the write-up claim more than the interval allows? "No effect" from a wide interval, or a business decision from the edge of a 95% interval, are findings.
+- **Retail effects.** For a promotion, is the lift net of pull-forward (a dip after the period), cannibalization within the category, and the normal seasonal pattern?
+- **Segments.** Does a clustering pass a no-structure check and a stability check? Are the segments different in a way a campaign can act on?
+- **Method check.** Did the method run on synthetic data with a planted truth, and pass recovery, the null false-positive rate, and coverage?
+
 ## Reproducibility
 
 Would the result come out the same from a clean process?

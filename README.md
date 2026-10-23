@@ -51,7 +51,7 @@ A `PreToolUse` hook (`hooks/guard-data.mjs`) backs this up. It blocks the Read a
 
 ## Models and cost
 
-Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
+Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity and statistical-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
 
 ## Use
 
@@ -75,7 +75,7 @@ analyst-mode routes each task to a playbook:
 
 Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/wstack:wstack-help` with a question to find the right one.
 
-The principle skills load on demand. The data-specific ones are `principle-define-the-question`, `principle-respect-the-grain`, `principle-reproduce-from-clean-state`, and `principle-explain-the-number`.
+The principle skills load on demand. The data-specific ones are `principle-define-the-question`, `principle-respect-the-grain`, `principle-reproduce-from-clean-state`, `principle-explain-the-number`, `principle-name-the-estimand`, and `principle-simulate-the-method`. The last two cover statistical work: naming the quantity and the unit of assignment before picking a method, and checking the method on synthetic data with a planted truth before it runs on real data. The `interrogate` skill adds a statistical-validity reviewer when the work makes a statistical claim.
 
 Two agents ship with the plugin. `wstack:analyst` is the delegate for code and notebook work. `wstack:comment-critic` removes comments that do not earn their place.
 

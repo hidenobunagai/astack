@@ -4,7 +4,7 @@
 
 1. State the decision and the reader. Write one sentence on what the reader will decide with this report. Use the **principle-experience-first** skill to choose what goes on the first screen.
 2. Write the answer first. One or two sentences: the finding, its size, and its confidence label. A reader who stops here still has the result.
-3. Gather the evidence. For each claim, record the number, the row count it rests on, the comparison baseline, and the script path and command that produced it. A number without a row count and a baseline is not ready. Use the **principle-explain-the-number** skill.
+3. Gather the evidence. For each claim, record the number, the row count it rests on, the comparison baseline, and the script path and command that produced it. A number without a row count and a baseline is not ready. Use the **principle-explain-the-number** skill. A statistical claim also needs its effect size and confidence interval in the decision's units, the checked assumptions, and the smallest effect the study could detect, as the **principle-name-the-estimand** skill describes.
 4. Write the method in three lines: the data source and window, the metric definition, and the one check that could have broken the result.
 5. List the caveats and what would change the conclusion. Name the assumption most likely to fail, and the result that would overturn the finding.
 6. Label confidence per claim. High: the move exceeds its spread, it reconciles, it re-runs from a clean process in the human's run, and an independent source agrees. Medium: it reconciles on one source with no independent check. Low: inferred, with a suspect not yet ruled out.

@@ -35,9 +35,10 @@ Launch all reviewers in one message with the `Agent` tool. Use `subagent_type` `
 | --- | --- | --- | --- |
 | A | `opus` | `high` | Result validity: grain, joins, filters, nulls, time windows, and whether the numbers answer the intent. |
 | B | `sonnet` | `high` | Code quality: structure, duplication, reuse of canonical definitions, and clarity. |
+| D (statistical claims only) | `opus` | `high` | Statistical validity: the estimand, the unit of assignment, the method's assumptions, multiplicity, and whether the conclusion follows from the interval. |
 | C (high stakes only) | `haiku` | `high` | Reproducibility: clean-process re-run (on synthetic data, or in the human's pasted runs), pinned dependencies, fixed seeds, and snapshot dates. |
 
-Add reviewer C only when the change is high stakes, as the table shows.
+Add reviewer C only when the change is high stakes, and reviewer D only when the work makes a statistical claim (a test, an effect estimate, an interval, a model, or a segmentation), as the table shows.
 
 Fill in `references/reviewer-prompt.md` for every reviewer with the intent, the code or notebook text, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`. Each reviewer applies the lens it is emphasizing and the other one as a second look.
 

@@ -16,6 +16,7 @@ The Principles section grounds every trigger below. In your reply, name each pri
 
 - Any query, join, or aggregation → state the question and the grain first. Load the **principle-define-the-question** and **principle-respect-the-grain** skills. Write the grain of each table in one line. Check row counts and key uniqueness before and after each join.
 - Any number you report, compare, or act on → load the **principle-explain-the-number** skill. Name the driver, the row count, the baseline, and the reconciliation.
+- Any statistical claim (a test, an effect estimate, a confidence interval, a regression, a clustering) → load the **principle-name-the-estimand** and **principle-simulate-the-method** skills. Write the estimand and the unit of assignment before the code, check the method on synthetic data with a planted truth before the human runs it, and report an effect size with its interval.
 - Any result you call done → the human re-runs it from a clean kernel or process, from source data, with `uv.lock` pinned and seeds fixed, through a run request. Load the **principle-reproduce-from-clean-state** and **principle-prove-it-works** skills. Read the values in the pasted output, not saved outputs.
 - A notebook → convert it before you read it. Never read a raw `.ipynb`, because its saved outputs can hold real rows. Run `uvx jupytext --to py:percent --output /tmp/<name>.py <notebook>.ipynb` so the script lands outside the repo, then read the script. The `py:percent` format drops outputs. To change a notebook, edit that script, then write the code back with `uvx jupytext --update --to ipynb --output <notebook>.ipynb /tmp/<name>.py`, which keeps the human's outputs and never shows them to you. Never Edit or Write the `.ipynb` directly. A marimo notebook is already `.py`.
 - A chart or dashboard → read the **dataviz** skill, when it is available, before you write the first line of chart code. Then follow the **visualization** playbook.
@@ -55,6 +56,8 @@ Each entry names when the principle applies. Load its leaf skill before you appl
 - **Reproduce from Clean State.** Before you report a result, hand off a notebook, or merge an analysis. Load the **principle-reproduce-from-clean-state** skill.
 - **Explain the Number.** Before you trust, report, or act on a computed number. Load the **principle-explain-the-number** skill.
 - **Prove It Works.** After an analysis, pipeline change, notebook, chart, or model, before you call it done. Load the **principle-prove-it-works** skill.
+- **Name the Estimand.** Before a test, an effect estimate, a regression, or a clustering. Name the quantity, the unit of assignment, the comparison, and the assumptions, then pick the method. Load the **principle-name-the-estimand** skill.
+- **Simulate the Method.** Before a statistical method runs on real data. Plant a known truth in synthetic data and check recovery, the false-positive rate, interval coverage, and power. Load the **principle-simulate-the-method** skill.
 - **Fix Root Causes.** A wrong number, a failing pipeline, a broken notebook, or a failing test. Trace the symptom to the first step where the data went wrong, and fix it there. Load the **principle-fix-root-causes** skill.
 
 **Architecture**
