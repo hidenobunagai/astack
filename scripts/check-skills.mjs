@@ -17,6 +17,8 @@ const forbidden = [
   /\bjj\b/, /jujutsu/i, /\bgh (pr|issue|api)\b/, /GitHub/, /bookmark/i, /memmini/i, /\bpmg\b/, /\bbunx?\b/, /python-standards/, /web-verify/,
 ];
 const problems = [];
+// Windows checkouts can turn LF into CRLF, so normalize before parsing.
+const read = (file) => readFileSync(file, "utf8").replace(/\r\n/g, "\n");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((n) => {
@@ -41,7 +43,7 @@ const known = new Set(skills);
 for (const name of skills) {
   const file = path.join(skillsRoot, name, "SKILL.md");
   if (!existsSync(file)) { problems.push(`${name}: missing SKILL.md`); continue; }
-  const text = readFileSync(file, "utf8");
+  const text = read(file);
   const fm = frontmatter(text, name);
   if (!fm) continue;
   if (fm.name !== name) problems.push(`${name}: name "${fm.name}" != directory`);
@@ -54,12 +56,12 @@ for (const name of skills) {
 
 const agents = existsSync(agentsRoot) ? readdirSync(agentsRoot).filter((n) => n.endsWith(".md")) : [];
 for (const a of agents) {
-  const fm = frontmatter(readFileSync(path.join(agentsRoot, a), "utf8"), `agents/${a}`);
+  const fm = frontmatter(read(path.join(agentsRoot, a)), `agents/${a}`);
   if (fm && fm.name !== a.replace(/\.md$/, "")) problems.push(`agents/${a}: name "${fm.name}" != file name`);
 }
 
 const playbookDir = path.join(skillsRoot, "analyst-mode", "playbooks");
-const analystIndex = readFileSync(path.join(skillsRoot, "analyst-mode", "SKILL.md"), "utf8");
+const analystIndex = read(path.join(skillsRoot, "analyst-mode", "SKILL.md"));
 const indexed = new Set([...analystIndex.matchAll(/`playbooks\/([\w-]+)\.md`/g)].map((m) => m[1]));
 const onDisk = new Set(readdirSync(playbookDir).filter((n) => n.endsWith(".md")).map((n) => n.replace(/\.md$/, "")));
 for (const p of onDisk) if (!indexed.has(p)) problems.push(`analyst-mode index: playbooks/${p}.md exists but is not listed in SKILL.md`);
@@ -68,7 +70,7 @@ for (const p of indexed) if (!onDisk.has(p)) problems.push(`analyst-mode index: 
 const files = [...walk(skillsRoot), ...agents.map((a) => path.join(agentsRoot, a))].filter((f) => f.endsWith(".md"));
 for (const file of files) {
   const rel = path.relative(root, file);
-  const text = readFileSync(file, "utf8");
+  const text = read(file);
   text.split("\n").forEach((line, i) => {
     for (const re of forbidden) if (re.test(line)) problems.push(`${rel}:${i + 1}: forbidden ${re} in "${line.trim().slice(0, 90)}"`);
   });
