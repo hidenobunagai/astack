@@ -23,6 +23,10 @@ A coefficient is an association. It is a causal effect only when the design supp
 - **Fixed effects.** Store and week fixed effects remove level differences and common shocks. Then the coefficients come only from changes within a store.
 - **Interactions.** Add an interaction only for a question you named before fitting, such as "does the effect differ between urban and suburban stores".
 
+## Small groups and shrinkage
+
+Store-level or item-level estimates from small stores or slow items swing widely, so the top and bottom of a ranking fill with small units by chance. A hierarchical (multilevel) model pulls each unit's estimate toward the group mean in proportion to its noise. Use a mixed model with random intercepts (`statsmodels` `MixedLM`) or a Bayesian hierarchical model (PyMC) when intervals for each unit matter. Report shrunken estimates for rankings, and show the raw and shrunken values side by side once so readers see the effect.
+
 ## Diagnostics as run-request checks
 
 Print these as aggregates, never rows:

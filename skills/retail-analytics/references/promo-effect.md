@@ -16,9 +16,12 @@ Separate offer from use. Receiving a coupon can be close to random in some campa
 | Few treated stores, many candidate controls | Synthetic control: non-negative weights on control stores that match the treated store's pre-period | Good pre-period fit. Report pre-period error, and run placebos that treat each control store as if treated. |
 | Customer-level treatment with rich pre-period behavior | Propensity score matching or inverse probability weighting on pre-period RFM, category mix, and store | No unmeasured confounding, and overlap. Report standardized mean differences after weighting (below 0.1) and the propensity score range of both groups. |
 | A sharp eligibility rule (spend above a threshold gets a coupon) | Regression discontinuity around the threshold | No manipulation at the threshold. Check the density of the running variable, and that pre-period covariates are smooth across it. |
+| No untreated units: a chain-wide launch, price change, or campaign | Interrupted time series (segmented regression on the pre-period trend and seasonality), or a structural time-series counterfactual built on series the treatment did not touch (CausalImpact style) | The pre-period model forecasts well: backtest it on a fake start date in the pre-period. The control series (weather, a region or category outside the campaign, a competitor index) are not affected by the treatment. Nothing else changed at the same time. |
 | Staggered rollout across stores | DiD estimators built for staggered timing (group-time effects), not one two-way fixed-effects regression | The same as DiD, per rollout group. Two-way fixed effects with staggered timing can give the wrong sign. |
 
-`statsmodels` covers DiD with fixed effects and cluster-robust errors, propensity models, and weighting. Synthetic control weights are a constrained least squares fit with `scipy.optimize`.
+`statsmodels` covers DiD with fixed effects and cluster-robust errors, propensity models, and weighting. Synthetic control weights are a constrained least squares fit with `scipy.optimize`. Segmented regression and structural time-series models (`UnobservedComponents` with regressors) are in `statsmodels`.
+
+Without a control group, the estimate rests entirely on the claim that the pre-period pattern would have continued. Treat it as weaker evidence than a design with controls, list every other change in the same window (price changes, competitor openings, weather, holidays), and say so in the report.
 
 ## Retail effects to separate
 

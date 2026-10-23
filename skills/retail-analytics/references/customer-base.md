@@ -16,6 +16,16 @@ This is a prediction task. Follow `references/forecasting.md` for validation: a 
 
 Predicting who will churn is not the same as knowing who a retention offer will save. For that, test the offer as an experiment (`references/experiment.md`) and model the uplift.
 
+## Time to next purchase
+
+"How long until the second purchase" and "how long until a customer lapses" are survival questions. Customers who have not yet made the next purchase by the end of the data are censored, not failures. Dropping them or treating their gap as complete biases the result toward short gaps.
+
+- Kaplan-Meier curves per cohort or segment for the share not yet repurchased by each day. Compare curves with a log-rank test.
+- A Cox proportional hazards model when the question is how factors (first basket size, first category, coupon use) relate to repurchase speed. Check proportional hazards with Schoenfeld residuals, and stratify or add time interactions when it fails.
+- Report the median time to repurchase and the share repurchased by day 30, 60, and 90, with intervals.
+
+The `lifelines` package covers both. Plant a known hazard and censoring at the end of the window in synthetic data, and check that the naive mean gap is biased while Kaplan-Meier recovers the planted curve.
+
 ## Lifetime value
 
 | Method | Use when |

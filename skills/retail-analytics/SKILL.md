@@ -1,6 +1,6 @@
 ---
 name: retail-analytics
-description: "Pick and run the right statistical method for a retail or ID-POS question: A/B and store tests, promotion or campaign effects from observational data, customer segmentation, cohorts, churn and lifetime value, surveys, explanatory regression, demand and sales forecasting, price elasticity, and basket analysis. Use when a retail analysis needs a test, an effect estimate, a model, a forecast, or segments, or when the user asks which method fits."
+description: "Pick and run the right statistical method for a retail or ID-POS question: A/B and store tests, promotion or campaign effects from observational data, chain-wide changes with no control group, uplift targeting, customer segmentation, cohorts, time to repurchase, churn and lifetime value, surveys and conjoint, explanatory regression and store rankings, demand and sales forecasting, KPI anomaly detection, marketing mix modeling, trade areas and new stores, price elasticity, assortment, and basket analysis. Use when a retail analysis needs a test, an effect estimate, a model, a forecast, or segments, or when the user asks which method fits."
 ---
 
 # Retail analytics
@@ -22,15 +22,23 @@ If the user wants both, split the work into two analyses with separate validatio
 | Question | Reference |
 | --- | --- |
 | A test we can still design or have just run, with random assignment | `references/experiment.md` |
-| The effect of a promotion, coupon, campaign, or store change that was not randomized | `references/promo-effect.md` |
+| The effect of a promotion, coupon, campaign, or store change that was not randomized, including chain-wide changes with no control group | `references/promo-effect.md` |
+| Who to target: the customers an offer changes, not the likely buyers | `references/uplift.md` |
 | Customer segments, personas, or clusters | `references/segmentation.md` |
-| Retention by cohort, churn, repeat purchase, or lifetime value | `references/customer-base.md` |
-| Survey responses, satisfaction, or survey answers joined to purchases | `references/survey.md` |
-| How much each factor is associated with an outcome, with control variables | `references/regression.md` |
+| Retention by cohort, time to next purchase, churn, or lifetime value | `references/customer-base.md` |
+| Survey responses, satisfaction, conjoint, brand maps, or survey answers joined to purchases | `references/survey.md` |
+| How much each factor is associated with an outcome, with control variables, or a ranking of stores or items | `references/regression.md` |
 | A forecast of demand, sales, or traffic | `references/forecasting.md` |
-| Price elasticity, markdowns, product affinity, or cross-selling | `references/price-basket.md` |
+| Finding unusual moves in KPIs across stores and categories | `references/anomaly-detection.md` |
+| Splitting a media budget across flyers, TV, and digital | `references/mmm.md` |
+| Trade areas, new-store forecasts, the effect of a new store on nearby stores, store benchmarking | `references/store-area.md` |
+| Price elasticity, markdowns, assortment cuts, product affinity, or cross-selling | `references/price-basket.md` |
 
 Read `references/id-pos-grain.md` for every family. Most wrong retail numbers come from mixing the line, receipt, customer, and store-day grains, or from an unstated sales definition.
+
+A simple comparison of two or more groups with no causal claim (spend of members versus non-members, satisfaction by region) does not need a family. Compare means with Welch's t-test, or use a bootstrap interval when spend is skewed. Compare proportions with a difference in proportions and its interval, or a chi-squared test for a table. Report the difference with its interval and the group sizes, and call it a difference between groups, not an effect.
+
+When no family fits, say so in the plan. Go on with the **principle-name-the-estimand** and **principle-simulate-the-method** skills alone, name the method and the reason, and list its assumptions with their checks.
 
 When a question fits two families, read both. For example, "did the loyalty program raise spend for heavy buyers" is a promotion effect within a segment.
 

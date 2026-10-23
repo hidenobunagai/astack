@@ -18,6 +18,12 @@ The log-log coefficient is the elasticity: the percent change in units for a 1% 
 
 Stockouts cap observed sales. Exclude stockout days or the elasticity is biased toward zero.
 
+## Assortment
+
+- **ABC analysis.** Rank items by sales or gross profit and split by cumulative share (for example, A up to 70%, B to 90%, C the rest). Compute it per store type and per period, and report how many items change class between periods. Rank on profit when the decision is about profit. An item in class C can still bring in customers who buy class A items, so check basket roles before a cut.
+- **Demand transfer.** When an item is removed, some of its buyers switch to substitutes and some stop buying the category. Estimate the transfer rate from past delistings or stockouts with a before-after comparison of its buyers' category spend, against similar buyers of items that stayed. Report the share of the removed item's sales that stayed in the category.
+- **Incrementality.** An item's sales are not its contribution. Its contribution is the sales that would be lost if it were removed, which is its sales times one minus the transfer rate.
+
 ## Basket analysis
 
 Use for cross-selling, layout, bundling, and recommendation rules.

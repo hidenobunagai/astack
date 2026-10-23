@@ -15,6 +15,19 @@ When the gaps matter, weight respondents to match the population on those variab
 - Exploratory factor analysis groups many items into a few factors. Check that the factors are stable on a split half.
 - Net Promoter Score is a difference of two shares. Its interval is wide. Compute it with the bootstrap, and do not compare NPS between small groups without the intervals.
 
+## Conjoint analysis
+
+Use when the decision is which combination of product attributes (price, size, brand, feature) customers prefer, and how much they would pay for each.
+
+- Prefer choice-based conjoint: respondents choose one option from sets of profiles, with a no-choice option. Generate the design so that attributes are balanced and not correlated, and keep each respondent under about 15 choice tasks.
+- Estimate with a conditional (multinomial) logit, or a hierarchical Bayesian model when individual-level preferences matter. Part-worths divided by the price coefficient give willingness to pay.
+- Simulate market shares for the scenarios the decision considers, with intervals. Stated preferences overstate purchase intent. Calibrate against real sales when ID-POS has the product.
+- Plant known part-worths in synthetic choices and check recovery before fielding.
+
+## Correspondence analysis
+
+Use to map a cross-table, such as brands by image words or stores by category share, onto two dimensions. It is a description, not a test. Report the share of inertia that each shown dimension explains. If the first two dimensions explain little, the map hides most of the structure, so say so. Points near the center are not well represented. Do not read distances between row and column points as similarities. A singular value decomposition of the standardized residuals takes a few lines of `numpy`.
+
 ## Free text
 
 Free text is raw rows and often holds personal data, so you never read it. Write a codebook and a coding script. The human runs the script, hand-codes a random sample with the same codebook, and pastes back only the share per code and the agreement rate between the script and the hand coding.
