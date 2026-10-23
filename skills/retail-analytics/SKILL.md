@@ -1,11 +1,21 @@
 ---
 name: retail-analytics
-description: "Pick and run the right statistical method for a retail or ID-POS question: A/B and store tests, promotion or campaign effects from observational data, chain-wide changes with no control group, uplift targeting, customer segmentation, cohorts, time to repurchase, churn and lifetime value, surveys and conjoint, explanatory regression and store rankings, demand and sales forecasting, KPI anomaly detection, marketing mix modeling, trade areas and new stores, price elasticity, assortment, and basket analysis. Use when a retail analysis needs a test, an effect estimate, a model, a forecast, or segments, or when the user asks which method fits."
+description: "Pick and run the right statistical method for a retail or ID-POS question: A/B and store tests, promotion or campaign effects from observational data, chain-wide changes with no control group, uplift targeting, customer segmentation, cohorts, time to repurchase, churn and lifetime value, surveys and conjoint, explanatory regression and store rankings, demand and sales forecasting, KPI anomaly detection, marketing mix modeling, trade areas and new stores, price elasticity, assortment, basket analysis, and manufacturer marketing on retail data: brand share and switching, new-product trial and repeat, trade promotions, and retail media. Use when a retail analysis needs a test, an effect estimate, a model, a forecast, or segments, or when the user asks which method fits."
 ---
 
 # Retail analytics
 
 Route a retail question to a method family, fix the quantity, check the method on synthetic data, hand the real run to the human, and report the result with its uncertainty. The rules in the Human runs the data section of the **analyst-mode** skill apply to every step.
+
+## Step 0, Whose decision
+
+The same data answers different questions for a retailer and a manufacturer, and the analysis may serve either. Name the decision owner before anything else.
+
+- **Retailer.** Cares about the category and the store: category sales and margin, store traffic, basket size, customer retention. A brand gaining share from another brand in the same category is neutral or negative for the retailer.
+- **Manufacturer.** Cares about its brands across retailers: brand share, buyers gained from competitors, new-product success, the return on trade and media spend. A lift taken from its own other products is not a gain.
+- **Both.** For joint business plans and category proposals, report the result twice: the effect on the brand and the effect on the category. Say where they conflict.
+
+The owner also sets what the output may show. Read the external sharing section in `references/id-pos-grain.md` before any output leaves the team.
 
 ## Step 1, Explain or predict
 
@@ -33,6 +43,10 @@ If the user wants both, split the work into two analyses with separate validatio
 | Splitting a media budget across flyers, TV, and digital | `references/mmm.md` |
 | Trade areas, new-store forecasts, the effect of a new store on nearby stores, store benchmarking | `references/store-area.md` |
 | Price elasticity, markdowns, assortment cuts, product affinity, or cross-selling | `references/price-basket.md` |
+| Brand share, buyer penetration and frequency, brand switching, loyalty, or the structure of a category | `references/brand-category.md` |
+| A new product's trial, repeat, long-run share, and where its sales came from | `references/new-product.md` |
+| A manufacturer-funded promotion: baseline, lift, and return on trade spend | `references/promo-effect.md` |
+| Ads on retailer channels (app, site, signage, receipt coupons) and their incremental sales | `references/retail-media.md` |
 
 Read `references/id-pos-grain.md` for every family. Most wrong retail numbers come from mixing the line, receipt, customer, and store-day grains, or from an unstated sales definition.
 

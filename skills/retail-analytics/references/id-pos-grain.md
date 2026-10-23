@@ -34,6 +34,20 @@ Fill these in once per project, in the project notes or a definitions module, an
 - Store changes: openings, closures, renovations, and relocations. Like-for-like store sets for period comparisons.
 - Points and loyalty-rank rules that change the incentive to show a member card, which changes the member share without changing behavior.
 
+## External sharing
+
+Outputs often go to another company: a retailer's data to a manufacturer, or a joint report to both. Fix these per project, from the data-sharing agreement, before the first output. Until a line is fixed, state the assumption in the plan and ask the human to confirm it.
+
+- Minimum cell size: the smallest number of customers (and of stores) behind any shared number. Suppress or merge smaller cells, and check that totals minus shown cells cannot reveal a suppressed one.
+- Competitor visibility: whether other manufacturers' brands appear by name, as an aggregate "other", or not at all.
+- Grain: customer-level rows never leave. Shared outputs are aggregates.
+- Store and retailer identity: whether stores, regions, or the retailer itself may be named.
+- Price and margin: whether retailer cost, margin, and funding terms may appear.
+
+## Representativeness
+
+One retailer's ID-POS covers that chain's customers, not the market. Its brand shares differ from the market's when the chain's shoppers, regions, or assortment differ. Members differ from non-members. When the decision is about the market (national brand share, total category size), say that the result describes this retailer's members, and compare with a market source such as a consumer panel or store-sales data when one is available.
+
 ## Data traits to plant in synthetic data
 
 Spend per customer is skewed with a heavy right tail and many zero periods. Purchase frequency is overdispersed relative to a Poisson. Sales have weekly and yearly seasonality, holiday spikes, and payday effects. Stores differ in level and trend. Member share differs by store. Plant these in every synthetic dataset, as the **principle-simulate-the-method** skill describes.

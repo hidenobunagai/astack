@@ -52,7 +52,7 @@ The default answer is `/wstack:analyst-mode`, which runs most of the other skill
 | Sharpen a vague analysis ask before starting | `/wstack:sharpen` |
 | Know how a pipeline, notebook, or module works now, or where new code should live | `/wstack:how` |
 | Know why a metric or filter is defined this way, or where a number came from | `/wstack:why` |
-| Pick a statistical method for a retail question: an A/B or store test, a promotion effect, uplift targeting, segments, churn or CLV, a survey or conjoint, a regression, a forecast, anomaly detection, media mix, trade areas, price elasticity, assortment, or baskets | `/wstack:retail-analytics` |
+| Pick a statistical method for a retail question: an A/B or store test, a promotion effect, uplift targeting, segments, churn or CLV, a survey or conjoint, a regression, a forecast, anomaly detection, media mix, trade areas, price elasticity, assortment, baskets, or manufacturer marketing (brand share, switching, new products, trade promotions, retail media) | `/wstack:retail-analytics` |
 | Understand a pipeline, model, metric, or dashboard in plain terms | `/wstack:teach` |
 | Catch up on their own recent analysis work on a topic | `/wstack:recall` |
 | Catch up on what changed in this chat since their last message | `/wstack:catch-up` |

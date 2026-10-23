@@ -31,6 +31,15 @@ Without a control group, the estimate rests entirely on the claim that the pre-p
 - **Store traffic versus basket.** Split the effect into visits and spend per visit.
 - **Margin.** A sales lift at a discount can lose money. Report gross profit when the decision is about profit.
 
+## Trade promotions
+
+Manufacturer-funded promotions (temporary price reductions, end-cap displays, flyer features) are evaluated at the product-store-week grain.
+
+- **Baseline.** The sales the item would have had without the promotion. Estimate it from non-promoted weeks with seasonality, price, and store effects, not from the week before. Weeks next to a promotion are not clean baseline weeks because of pull-forward and stockpiling.
+- **Lift decomposition.** Split the promotional sales into baseline, incremental sales from new buyers and extra volume, pull-forward from later weeks, switching from competitor brands, and cannibalization of the manufacturer's own items. Each owner counts a different part as gain.
+- **Confounded levers.** Price cuts, displays, and flyer features usually run together. Estimate their effects separately only where the data has weeks with one lever without the others. Otherwise report the combined effect.
+- **Return on spend.** Incremental gross profit (for the manufacturer, at its own margin) divided by the trade spend. A promotion with high lift can still lose money.
+
 ## Inference
 
 Cluster standard errors at the unit of assignment, usually the store or the customer. With fewer than about 30 treated clusters, cluster-robust errors are too small. Use a wild cluster bootstrap instead. With only a handful of treated stores, as in a typical pilot of one to five stores, the bootstrap fails too. Use only placebo or randomization inference, such as the synthetic-control placebo across control stores.
