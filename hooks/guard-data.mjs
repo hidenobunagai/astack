@@ -6,14 +6,18 @@ import { readFileSync } from "node:fs";
 
 if (process.env.ASTACK_ANALYST === "off") process.exit(0);
 
-const DATA = /\.(parquet|csv|tsv|xlsx?|feather|arrow|ipc|jsonl|ndjson|avro|orc|sqlite3?|db|duckdb|pkl|pickle|h5|hdf5|sav|dta|sas7bdat|ipynb)$/i;
+const DATA = /\.(parquet|csv|tsv|xlsx?|feather|arrow|ipc|jsonl|ndjson|avro|orc|sqlite3?|db|duckdb|pkl|pickle|h5|hdf5|sav|dta|sas7bdat|ipynb)(?:\.(?:gz|bz2|zst|xz))?$/i;
 const SYNTHETIC = /(^|\/)tests?\/|synthetic|fixture/i;
-const READER = /(^|[\s|;&(])(cat|head|tail|less|more|bat|sed|awk|grep|rg|jq|sqlite3|duckdb|csvlook|xsv|qsv|parquet-tools|strings|xxd|od)\b([^|;&\n]*)/g;
+const READER = /(^|[\s|;&(])(cat|head|tail|less|more|bat|sed|awk|grep|rg|jq|sqlite3|duckdb|csvlook|xsv|qsv|parquet-tools|strings|xxd|od|cut|column|sort|uniq|shuf|nl|paste|zcat|gzcat|bzcat|xzcat|zgrep)\b([^|;&\n]*)/g;
 
 const blocked = (p) => typeof p === "string" && DATA.test(p.replace(/["')]+$/, "")) && !SYNTHETIC.test(p);
 
-function check({ tool_name, tool_input = {} }) {
-  if (tool_name === "Read" || tool_name === "NotebookRead") return blocked(tool_input.file_path) && tool_input.file_path;
+function check(raw = {}) {
+  let { tool_name, tool_input } = raw ?? {};
+  tool_input = tool_input ?? {};
+  if (tool_name === "Read" || tool_name === "NotebookRead" || tool_name === "Edit" || tool_name === "Write") {
+    return blocked(tool_input.file_path) && tool_input.file_path;
+  }
   if (tool_name === "Grep") return [tool_input.path, tool_input.glob].find(blocked);
   if (tool_name === "Bash") {
     for (const [, , , args] of String(tool_input.command ?? "").matchAll(READER)) {
@@ -24,7 +28,12 @@ function check({ tool_name, tool_input = {} }) {
   return false;
 }
 
-const hit = check(JSON.parse(readFileSync(0, "utf8")));
+let hit = false;
+try {
+  hit = check(JSON.parse(readFileSync(0, "utf8")));
+} catch {
+  process.exit(0);
+}
 if (hit) {
   process.stderr.write(
     `astack: blocked reading ${hit}. The human runs everything on real data. ` +
