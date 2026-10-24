@@ -60,7 +60,7 @@ A `PreToolUse` hook (`hooks/guard-data.mjs`) backs this up. It blocks the Read a
 
 ## Models and cost
 
-The main agent writes code itself by default and spawns a subagent only for parallel work in throwaway contexts (independent experiments, broad searches, review panels) or when its own context is full. Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity and statistical-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
+Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity and statistical-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
 
 ## Use
 

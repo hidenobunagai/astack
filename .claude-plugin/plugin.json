@@ -1,6 +1,6 @@
 {
   "name": "astack",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Rigorous agent workflows for data analysis and statistics in Python, notebooks, and dashboards, with retail and ID-POS method guidance, on plain git. Adapted from pstack.",
   "author": {
     "name": "Hidenobu Nagai"

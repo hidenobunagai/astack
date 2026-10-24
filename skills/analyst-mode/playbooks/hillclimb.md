@@ -1,6 +1,6 @@
 ### Hillclimb
 
-**You own the metric and the experiment's integrity. Build, measure, and keep or revert each attempt.** For sustained, iterative improvement of one measurable thing against a target, such as a model score, a forecast error, or a query's cost. A one-off fix is the bug-fix or perf-issue playbook. This is the loop.
+**You own the metric and the experiment's integrity. Supervise and review. Delegate the attempts.** For sustained, iterative improvement of one measurable thing against a target, such as a model score, a forecast error, or a query's cost. A one-off fix is the bug-fix or perf-issue playbook. This is the loop.
 
 The human runs the harness on real data, so each round costs a round trip. Batch hypotheses: one run request evaluates several independent variants against the frozen harness and prints one table. Core discipline still holds per variant: one change, one measurement, keep or revert. Never stack untested changes. Never claim a win from reading code or from a single run (the **principle-prove-it-works** skill).
 
@@ -9,7 +9,7 @@ The human runs the harness on real data, so each round costs a round trip. Batch
 3. Open the decision log with the **show-me-your-work** skill. A `decision.tsv` holds one row per attempt: id, hypothesis, change, before, after, delta, checks, verdict (kept or reverted), note. Read it before each attempt. Keep it out of version control with a `.gitignore` entry.
 4. Ground each hypothesis in the model from step 1, so it names a mechanism. Example: "add the lagged order count, because the target leads it by a week." Not "try a bigger model." When the metric is a runtime or a cost, order hypotheses by the mantras in the perf-issue playbook (`playbooks/perf-issue.md`). Borrow only their order.
 5. Loop, one batch of independent hypotheses per round:
-   - Make each change yourself, with a tight scope. Each change runs on synthetic data before it joins the batch. When several independent hypotheses are live, you may run them in parallel subagents with `model: "sonnet"` and `effort: "medium"`, each in its own worktree (`isolation: "worktree"`), and review each diff. When the loop runs long enough that this context fills up, move to subagents (the **principle-guard-the-context-window** skill).
+   - Hand each change to a subagent with `model: "sonnet"` and `effort: "medium"`, with a tight scope. Each change runs on synthetic data before it joins the batch. Review the diff rather than typing it (the **principle-guard-the-context-window** skill). When several independent hypotheses are live, run them in parallel subagents, each in its own worktree (`isolation: "worktree"`).
    - Put every variant behind one switch, and hand the human one run request that measures the baseline and each variant with the frozen harness and runs the regression gate.
    - Accept only when the metric moves past the spread across seeds on the validation split, and the gate stays green. Otherwise revert the change in full. A tweak that "might help" is not kept.
    - One commit per accepted fix, with only the files you changed: `git add <paths>` then `git commit -m "..."`. Log the row either way.
