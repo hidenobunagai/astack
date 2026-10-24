@@ -42,7 +42,7 @@ Each entry names when the principle applies. Load its leaf skill before you appl
 
 **Core**
 
-- **Laziness Protocol.** Refactoring, sizing an analysis diff, or tempted to add an abstraction, layer, or parameter to a pipeline or notebook. Load the **principle-laziness-protocol** skill.
+- **Laziness Protocol.** About to write new analysis code, refactoring, sizing an analysis diff, or tempted to add an abstraction, layer, or parameter to a pipeline or notebook. Load the **principle-laziness-protocol** skill.
 - **Foundational Thinking.** Before writing analysis logic, settle the table shape and grain, the sequencing of environment and checks, and what shared state a job can change. Load the **principle-foundational-thinking** skill.
 - **Attack the Premise.** Two or more fixes that share one premise have failed the same check, such as a metric that will not move. Load the **principle-attack-the-premise** skill.
 - **Subtract Before You Add.** Sequencing a new analysis, stage, refactor, or rewrite. Remove dead cells, unused columns, and stale queries first. Load the **principle-subtract-before-you-add** skill.
