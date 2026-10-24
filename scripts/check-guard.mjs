@@ -7,10 +7,18 @@ import { fileURLToPath } from "node:url";
 const hook = fileURLToPath(new URL("../hooks/guard-data.mjs", import.meta.url));
 const cases = [
   [2, "Read", { file_path: "/w/data/orders.parquet" }],
+  [2, "Read", { file_path: "/w/data/orders.csv.gz" }],
   [2, "Read", { file_path: "/w/analysis/explore.ipynb" }],
   [0, "Read", { file_path: "/w/tests/fixtures/orders.csv" }],
   [0, "Read", { file_path: "/w/analysis/eda.py" }],
+  [2, "Edit", { file_path: "/w/analysis/explore.ipynb" }],
+  [0, "Edit", { file_path: "/w/tests/fixtures/orders.csv" }],
+  [2, "Write", { file_path: "/w/data/orders.csv" }],
+  [0, "Write", { file_path: "/w/tests/synthetic_orders.parquet" }],
   [2, "Bash", { command: "head -5 data/orders.csv" }],
+  [2, "Bash", { command: "cut -d, -f1 data/orders.csv" }],
+  [2, "Bash", { command: "column -s, -t data/orders.csv" }],
+  [2, "Bash", { command: "zcat data/orders.csv.gz" }],
   [2, "Bash", { command: "ls && jq '.cells' analysis/explore.ipynb" }],
   [0, "Bash", { command: "uvx jupytext --to py:percent --output /tmp/x.py analysis/explore.ipynb" }],
   [0, "Bash", { command: "cat data/synthetic_orders.csv" }],
@@ -20,10 +28,13 @@ const cases = [
   [0, "Bash", { command: "uvx jupytext --update --to ipynb --output analysis/explore.ipynb /tmp/explore.py" }],
   [2, "Grep", { pattern: "x", glob: "*.csv" }],
   [0, "Grep", { pattern: "x", glob: "*.py" }],
+  [0, "Read", null],
+  [0, "EmptyInput", null, ""],
 ];
 let bad = 0;
-for (const [want, tool_name, tool_input] of cases) {
-  const { status } = spawnSync("node", [hook], { input: JSON.stringify({ tool_name, tool_input }), env: { ...process.env, ASTACK_ANALYST: "" } });
+for (const [want, tool_name, tool_input, rawInput] of cases) {
+  const input = rawInput !== undefined ? rawInput : JSON.stringify({ tool_name, tool_input });
+  const { status } = spawnSync("node", [hook], { input, env: { ...process.env, ASTACK_ANALYST: "" } });
   if (status !== want) bad++, console.log(`FAIL ${tool_name} ${JSON.stringify(tool_input)}: exit ${status}, want ${want}`);
 }
 console.log(bad ? `${bad} failing` : `PASS ${cases.length} cases`);
