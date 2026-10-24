@@ -13,7 +13,7 @@
    7. Do it cheaper. Use narrower dtypes, the lazy engine, or a better algorithm.
 
    When an earlier mantra meets the target, stop.
-3. Plan the fix from the baseline and the query plan. If it crosses a function boundary, run the **architect** skill first. Delegate implementation to a subagent with `model: "sonnet"` and `effort: "high"`. Review the diff. Re-measure with the same probe on the same input. When several candidate fixes are live, one request runs the baseline and every candidate and prints one table. Apply the **principle-sequence-verifiable-units** skill: verify each attempt before trying the next.
+3. Plan the fix from the baseline and the query plan. If it crosses a function boundary, run the **architect** skill first. Make the change yourself. When several candidate fixes are independent, you may build them in parallel subagents, each in its own worktree (`isolation: "worktree"`), and review each diff. Re-measure with the same probe on the same input. When several candidate fixes are live, one request runs the baseline and every candidate and prints one table. Apply the **principle-sequence-verifiable-units** skill: verify each attempt before trying the next.
 4. Check the output too. A faster result that changes values is a bug. Compare row counts, key sets, and column sums with the baseline output. "Inconclusive," or a measurement on a different input, is not a pass. Flag it.
 5. Cite the measurement in the PR.
 6. Run the opening-a-pr playbook (`playbooks/opening-a-pr.md`).

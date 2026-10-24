@@ -124,7 +124,13 @@ Before a command that could destroy data, prefer `compile`, `--dry-run`, or read
 
 ## Subagents
 
-Spawn with the `Agent` tool. Use `subagent_type: "astack:analyst"` for any code, notebook, pipeline, or helper delegate that a playbook step needs. Never spawn an analyst to run this playbook. Skills that set their own subagent type, such as **interrogate**, **reflect**, **swarm**, **arena**, **how**, **why**, and **architect**, keep it. Do not override them.
+Do the work in this loop by default. One context keeps the data shape, the evidence, and the Human runs the data rule in view, and a handoff loses detail each time it passes through a summary. Spawn a subagent only when one of these holds:
+
+- Parallel work needs fresh contexts that are thrown away after, such as independent hypotheses in separate worktrees, a broad read-only search, or a review panel that must not see your reasoning.
+- This context has grown so large that you are losing track of earlier facts.
+- The task needs tools or instructions that conflict with this skill.
+
+Spawn with the `Agent` tool. Use `subagent_type: "astack:analyst"` for any code, notebook, pipeline, or helper delegate. Never spawn an analyst to run this playbook. Skills that set their own subagent type, such as **interrogate**, **reflect**, **swarm**, **arena**, **how**, **why**, and **architect**, keep it. Do not override them.
 
 The other types are `general-purpose` for work that edits, `Explore` for read-only search (it still has Bash, so the brief says "do not edit files"), and `Plan` for design.
 
