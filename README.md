@@ -15,6 +15,7 @@ It assumes plain git with any hosting or review tool (or none), works on Windows
 - [uv](https://docs.astral.sh/uv/) for Python
 - Node.js 18 or newer for `npx` tools and the skill check
 - Optional: [engram](https://github.com/hidenobunagai/engram) for recall of past sessions and saved notes
+- Optional, for `/astack:statechart` and the formal verification skills only: a Java 11 or newer runtime plus tla2tools. Either install [mise](https://mise.jdx.dev) and let the first run fetch Temurin and tla2tools v1.7.4, or place `tla2tools.jar` (v1.7.4, from the [TLA+ releases](https://github.com/tlaplus/tlaplus/releases)) yourself and set `TLA2TOOLS` to its path (and `JAVA` to the java binary, if it is not on PATH) in the `env` block of `~/.claude/settings.json`. The second route needs no installer and no admin rights.
 
 ## Install
 

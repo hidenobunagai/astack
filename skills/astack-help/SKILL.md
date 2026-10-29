@@ -25,6 +25,7 @@ Check the repo state that changes the answer. Mention it only when it matters:
 
 - No `pyproject.toml` or `uv.lock` in the analysis repo means the reproduction rules have no pinned environment yet. Offer `uv init` before the first re-run.
 - No `.git` directory means the folder is not a git repo. The PR steps need `git init` first. A remote is optional.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/astack:create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/astack:maintain-formal-verification-skill` if the question touches that code.
 
 ## Get started
 
@@ -62,6 +63,9 @@ The default answer is `/astack:analyst-mode`, which runs most of the other skill
 | Run parallel checks over data slices or datasets, and get one report | `/astack:swarm` |
 | Have different models review an analysis and try to break it | `/astack:interrogate` |
 | Fix a wrong number test-first when a cheap local test exists | `/astack:tdd` |
+| Formally verify a race, invariant, or other property that tests rarely reach | `/astack:create-formal-verification-skill` |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | `/astack:maintain-formal-verification-skill` |
+| Show a state machine or flow as a chart checked by a TLA+ model, with the shortest path to each state that breaks a rule | `/astack:statechart` |
 | Vet a runtime measurement before reporting a speedup | `/astack:benchmark-checklist` |
 | Run a large or cross-cutting analysis, or one a human reviews after stepping away | `/astack:figure-it-out` |
 | Keep a decision log during a long or unattended run | `/astack:show-me-your-work` |
