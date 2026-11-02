@@ -6,6 +6,27 @@ are tagged GitHub releases; 0.7.x was distributed by push only, and the
 0.9.0 GitHub release was created after the fact, on 2026-11-02, from the
 commit that had already shipped as 0.9.0.
 
+## 0.10.0 — 2026-11-02
+
+Data guard hardening, integrated from the branch
+`auto/improve-20261025-guard-data-hardening`, where it had waited unmerged
+since 2026-10-25.
+
+- Compressed data files are blocked too: a data extension followed by
+  `.gz`, `.bz2`, `.zst`, or `.xz` (for example `orders.csv.gz`). A plain
+  archive such as `archive.tar.gz` is not a data file and stays readable.
+- `Edit` and `Write` on data files and raw notebooks are blocked, not just
+  reads, so the agent cannot modify real data or saved notebook outputs
+  either. Synthetic and test paths stay writable.
+- More shell readers are matched: `cut`, `column`, `sort`, `uniq`, `shuf`,
+  `nl`, `paste`, and the compressed-file readers `zcat`, `gzcat`, `bzcat`,
+  `xzcat`, and `zgrep`.
+- Malformed hook input (empty, non-JSON, or missing fields) no longer
+  crashes the hook; it steps aside and lets the call through, so a bad
+  payload can never break a session. The guard cases grow from 14 to 24.
+- The block message now says "blocked access to", since it also covers
+  writes.
+
 ## 0.9.1 — 2026-11-02
 
 Distribution and trust polish; no change to skill behavior.

@@ -10,8 +10,10 @@ the plugin does on your machine.
   instructions into the session at startup, resume, `/clear`, and compaction.
   It reads no files and writes nothing.
 - A `PreToolUse` hook (`hooks/guard-data.mjs`) inspects the target of `Read`,
-  `NotebookRead`, `Grep`, and `Bash` calls and blocks reads of data files and
-  raw notebooks, as described in the README. It reads only the hook input on
+  `NotebookRead`, `Edit`, `Write`, `Grep`, and `Bash` calls and blocks access
+  to data files (including compressed forms such as `.csv.gz`) and raw
+  notebooks, as described in the README. Malformed hook input makes the hook
+  step aside rather than fail the session. It reads only the hook input on
   stdin, keeps no state, and writes nothing.
 - Skills are Markdown playbooks. Some playbooks ask the agent to run ordinary
   project commands (`uv`, `git`, `node`, and similar) through Claude Code's
