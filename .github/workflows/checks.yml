@@ -1,0 +1,44 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate skills, agents, and cross-references
+        run: node scripts/check-skills.mjs
+      - name: Run the data guard cases
+        run: node scripts/check-guard.mjs
+      - name: Run the worked example end to end
+        working-directory: examples/human-runs-the-data
+        run: |
+          python3 make_synthetic.py synthetic_sales.csv
+          python3 check_sales.py synthetic_sales.csv > out.txt 2>&1 || true
+          cat out.txt
+          grep -q "FAIL store B" out.txt
+
+  statechart-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install test dependencies
+        working-directory: skills/statechart/scripts
+        run: npm install --no-audit --no-fund
+      - name: Run the statechart test suite (TLC-backed tests skip without TLA2TOOLS)
+        working-directory: skills/statechart/scripts
+        run: npm test

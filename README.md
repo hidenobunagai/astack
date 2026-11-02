@@ -59,6 +59,8 @@ A `PreToolUse` hook (`hooks/guard-data.mjs`) backs this up. It blocks the Read a
 { "permissions": { "deny": ["Read(./data/**)", "Bash(bq query:*)"] } }
 ```
 
+A worked example of the whole flow, from question to run request to pasted result, is in [examples/human-runs-the-data](examples/human-runs-the-data/). What the plugin's hooks and scripts do on your machine, and what they never do, is stated in [SECURITY.md](SECURITY.md).
+
 ## Models and cost
 
 Every subagent call names its model and effort. `opus` runs only the roles that make a final judgment (result-validity and statistical-validity review, the arena judge, the hardest design work). Code delegates run on `sonnet` at `medium` effort, verification and review at `high`, and search and exploration on `haiku` at `low`. Higher effort buys edge-case coverage, not a better approach, so it goes to verification and review. Edit the defaults in `skills/analyst-mode/SKILL.md` and the panel tables in `interrogate`, `arena`, `architect`, and `reflect`.
@@ -69,19 +71,19 @@ analyst-mode is on in every session. A `SessionStart` hook loads it at startup, 
 
 analyst-mode routes each task to a playbook:
 
-| Task | Playbook |
-| --- | --- |
-| First look at a new dataset | `eda` |
-| "Why did this metric move?" | `metric-investigation` |
-| Checks on a dataset or pipeline output | `data-quality-check` |
-| A wrong number, a broken pipeline, a failing notebook | `bug-fix` |
-| A slow query, transform, or notebook | `perf-issue` |
-| Improving one metric over many iterations | `hillclimb` |
-| New analysis code or pipeline step | `feature` |
-| An exploratory notebook to a re-runnable script | `notebook-to-pipeline` |
-| A chart or dashboard | `visualization` |
-| A write-up for readers | `findings-report` |
-| Read-only questions about code or data | `investigation` |
+| Task                                                  | Playbook               |
+| ----------------------------------------------------- | ---------------------- |
+| First look at a new dataset                           | `eda`                  |
+| "Why did this metric move?"                           | `metric-investigation` |
+| Checks on a dataset or pipeline output                | `data-quality-check`   |
+| A wrong number, a broken pipeline, a failing notebook | `bug-fix`              |
+| A slow query, transform, or notebook                  | `perf-issue`           |
+| Improving one metric over many iterations             | `hillclimb`            |
+| New analysis code or pipeline step                    | `feature`              |
+| An exploratory notebook to a re-runnable script       | `notebook-to-pipeline` |
+| A chart or dashboard                                  | `visualization`        |
+| A write-up for readers                                | `findings-report`      |
+| Read-only questions about code or data                | `investigation`        |
 
 Other playbooks cover refactoring, prototypes, multi-phase plans, autonomous runs, pausing and resuming, authoring skills, and opening a PR. Type `/astack:astack-help` with a question to find the right one.
 
@@ -91,7 +93,7 @@ The principle skills load on demand. The data-specific ones are `principle-defin
 
 Two agents ship with the plugin. `astack:analyst` is the delegate for code and notebook work. `astack:comment-critic` removes comments that do not earn their place.
 
-astack uses the `dataviz` skill for chart design when your Claude Code has it, and falls back to the rules in the visualization playbook otherwise.
+astack uses the `dataviz` skill for chart design when your Claude Code has it installed (it is a separate skill, not part of astack), and falls back to the rules in the visualization playbook otherwise.
 
 ## Develop
 
@@ -100,7 +102,7 @@ node scripts/check-skills.mjs
 node scripts/check-guard.mjs
 ```
 
-The first check validates frontmatter, names, size limits, cross-skill references, links, the analyst-mode playbook index, and leftover upstream terms. The second runs the data guard hook against known cases. Run both before each commit.
+The first check validates frontmatter, names, size limits, cross-skill references, links, the analyst-mode playbook index, and leftover upstream terms. The second runs the data guard hook against known cases. Run both before each commit; CI runs both, plus the worked example and the statechart test suite, on every push and pull request. Version history is in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

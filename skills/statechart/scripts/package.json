@@ -1,5 +1,5 @@
 {
-  "name": "@cursor-skill/statechart",
+  "name": "@astack/statechart",
   "private": true,
   "type": "module",
   "scripts": {
