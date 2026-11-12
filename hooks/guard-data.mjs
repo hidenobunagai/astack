@@ -7,13 +7,19 @@ import { readFileSync } from "node:fs";
 if (process.env.ASTACK_ANALYST === "off") process.exit(0);
 
 const DATA =
-  /\.(parquet|csv|tsv|xlsx?|feather|arrow|ipc|jsonl|ndjson|avro|orc|sqlite3?|db|duckdb|pkl|pickle|h5|hdf5|sav|dta|sas7bdat|ipynb)(?:\.(?:gz|bz2|zst|xz))?$/i;
+  /\.(parquet|csv|tsv|xlsx?|feather|arrow|ipc|jsonl|ndjson|avro|orc|sqlite3?|db|duckdb|pkl|pickle|h5|hdf5|sav|dta|sas7bdat|ipynb)$/i;
+const COMPRESSED = /\.(?:gz|bz2|xz|zst|lz4|zip)$/i;
 const SYNTHETIC = /(^|\/)tests?\/|synthetic|fixture/i;
 const READER =
-  /(^|[\s|;&(])(cat|head|tail|less|more|bat|sed|awk|grep|rg|jq|sqlite3|duckdb|csvlook|xsv|qsv|parquet-tools|strings|xxd|od|cut|column|sort|uniq|shuf|nl|paste|zcat|gzcat|bzcat|xzcat|zgrep)\b([^|;&\n]*)/g;
+  /(^|[\s|;&(])(cat|head|tail|less|more|bat|sed|awk|grep|rg|jq|sqlite3|duckdb|csvlook|xsv|qsv|parquet-tools|strings|xxd|od|cut|column|sort|uniq|shuf|nl|paste|zcat|gzcat|bzcat|xzcat|zstdcat|zgrep|gzip|gunzip)\b([^|;&\n]*)/g;
 
-const blocked = (p) =>
-  typeof p === "string" && DATA.test(p.replace(/["')]+$/, "")) && !SYNTHETIC.test(p);
+const isDataPath = (p) => {
+  let path = p.replace(/["')]+$/, "");
+  while (COMPRESSED.test(path)) path = path.replace(COMPRESSED, "");
+  return DATA.test(path);
+};
+
+const blocked = (p) => typeof p === "string" && isDataPath(p) && !SYNTHETIC.test(p);
 
 function check(raw = {}) {
   let { tool_name, tool_input } = raw ?? {};
